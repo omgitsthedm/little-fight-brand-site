@@ -5,84 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Little Fight NYC - Tech Tips for Small Businesses</title>
     <meta name="description" content="Tech tips, guides, and insights for NYC small businesses. Learn how to grow your business with better technology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="../" class="nav-logo">
-                <div class="nav-logo-box">LITTLE<br>FIGHT<br>NYC</div>
-                <span class="nav-logo-text">Little Fight NYC</span>
-            </a>
-            <div class="nav-links">
-                <a href="../#services">Services</a>
-                <a href="../#about">About</a>
-                <a href="./">Blog</a>
-                <a href="../#faq">FAQ</a>
-                <a href="../#contact">Contact</a>
-                <a href="../#contact" class="nav-cta">Let's Talk</a>
-            </div>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__inner">
+        <a href="../" class="nav__logo" aria-label="Little Fight NYC — Home">
+          <div class="nav__logo-mark">
+            <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" fill="#ff5a00"/><g fill="#fff" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="126" letter-spacing="1.2"><text x="20" y="152">LITTLE</text><text x="20" y="298">FIGHT</text><text x="20" y="444">NYC</text></g></svg>
+          </div>
+          <span class="nav__logo-text">Little Fight NYC</span>
+        </a>
+        <div class="nav__links">
+          <a href="../#services" class="nav__link">Services</a>
+          <a href="../#how-it-works" class="nav__link">How It Works</a>
+          <a href="../#results" class="nav__link">Work</a>
+          <a href="../#faq" class="nav__link">FAQ</a>
+          <a href="../#contact" class="nav__link">Contact</a>
         </div>
+        <div class="nav__ctas">
+          <a href="https://audits.littlefightnyc.com" class="btn btn--secondary" target="_blank" rel="noopener">Free Website Audit</a>
+          <a href="../#contact" class="btn btn--primary">Get Help Today</a>
+        </div>
+        <button class="nav__mobile-trigger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>
+        </button>
+      </div>
     </nav>
 
-    <section style="padding: 120px 24px 80px;">
-        <div class="container" style="max-width: 900px;">
-            <div class="section-header">
-                <p class="section-eyebrow">TECH TIPS & INSIGHTS</p>
-                <h1 class="section-title">Little Fight NYC Blog</h1>
-                <p class="section-description">
-                    Practical advice, tech tips, and real talk for small business owners in NYC and beyond.
-                </p>
-            </div>
-            
-            <div style="display: grid; gap: 40px; margin-top: 60px;">
-                <!-- Blog Post 1 -->
-                <article style="display: grid; grid-template-columns: 300px 1fr; gap: 32px; background: #fff; border-radius: 16px; border: 1px solid #f0f0f0; padding: 32px; transition: all 0.3s;">
-                    <div style="background: linear-gradient(135deg, #FE5800 0%, #FF6B35 100%); border-radius: 12px; height: 200px;"></div>
-                    <div>
-                        <span style="display: inline-block; padding: 6px 12px; background: rgba(254, 88, 0, 0.1); color: #FE5800; border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 12px;">Cybersecurity</span>
-                        <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">
-                            <a href="cybersecurity-for-small-business.html" style="color: #222; text-decoration: none;">How Small Businesses Can Stay Safe in a Digital World</a>
-                        </h2>
-                        <p style="color: #666; margin-bottom: 16px; line-height: 1.6;">
-                            Practical cybersecurity tips for small businesses. Learn how to protect your business from cyber threats with actionable steps that don't require a tech degree.
-                        </p>
-                        <div style="color: #888; font-size: 0.875rem;">
-                            January 2025 • 10 min read
-                        </div>
-                    </div>
-                </article>
+    <!-- Mobile overlay (outside nav to avoid backdrop-filter containing block) -->
+    <div id="mobile-menu" class="nav__mobile-overlay" role="dialog" aria-label="Mobile navigation">
+      <a href="../#services" class="nav__mobile-link">Services</a>
+      <a href="../#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="../#results" class="nav__mobile-link">Work</a>
+      <a href="../#faq" class="nav__mobile-link">FAQ</a>
+      <a href="../#contact" class="nav__mobile-link">Contact</a>
+      <div class="nav__mobile-ctas">
+        <a href="https://audits.littlefightnyc.com" class="btn btn--secondary btn--full" target="_blank" rel="noopener">Free Website Audit</a>
+        <a href="../#contact" class="btn btn--primary btn--full">Get Help Today</a>
+      </div>
+    </div>
 
-                <!-- Blog Post 2 -->
-                <article style="display: grid; grid-template-columns: 300px 1fr; gap: 32px; background: #fff; border-radius: 16px; border: 1px solid #f0f0f0; padding: 32px; transition: all 0.3s;">
-                    <div style="background: linear-gradient(135deg, #FE5800 0%, #FF6B35 100%); border-radius: 12px; height: 200px;"></div>
-                    <div>
-                        <span style="display: inline-block; padding: 6px 12px; background: rgba(254, 88, 0, 0.1); color: #FE5800; border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 12px;">Digital Strategy</span>
-                        <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">
-                            <a href="nyc-small-business-digital.html" style="color: #222; text-decoration: none;">Why NYC's Mom-and-Pop Shops Need to Go Digital—Now</a>
-                        </h2>
-                        <p style="color: #666; margin-bottom: 16px; line-height: 1.6;">
-                            NYC small businesses need a digital presence to survive. Learn how going digital can increase foot traffic, customer loyalty, and sales for local shops.
-                        </p>
-                        <div style="color: #888; font-size: 0.875rem;">
-                            January 2025 • 12 min read
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <footer style="background: #222; color: #fff; padding: 80px 24px 32px;">
+    <main id="main">
+      <section class="page-hero">
         <div class="container">
-            <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 Little Fight NYC</p>
-                <div class="footer-legal">
-                    <a href="../privacy.html">Privacy</a>
-                    <a href="../terms.html">Terms</a>
-                </div>
-            </div>
+          <p class="page-hero__eyebrow">Tech Tips & Insights</p>
+          <h1 class="page-hero__title">Little Fight NYC Blog</h1>
+          <p class="page-hero__desc">Practical advice, tech tips, and real talk for small business owners in NYC and beyond.</p>
         </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="blog-grid">
+            <a href="cybersecurity-for-small-business.html" class="blog-card">
+              <div class="blog-card__body">
+                <div class="blog-card__category">Cybersecurity</div>
+                <h2 class="blog-card__title">How Small Businesses Can Stay Safe in a Digital World</h2>
+                <p class="blog-card__excerpt">Practical cybersecurity tips for small businesses. Learn how to protect your business from cyber threats with actionable steps that don't require a tech degree.</p>
+                <div class="blog-card__meta">January 2025 · 10 min read</div>
+              </div>
+            </a>
+
+            <a href="nyc-small-business-digital.html" class="blog-card">
+              <div class="blog-card__body">
+                <div class="blog-card__category">Digital Strategy</div>
+                <h2 class="blog-card__title">Why NYC's Mom-and-Pop Shops Need to Go Digital—Now</h2>
+                <p class="blog-card__excerpt">NYC small businesses need a digital presence to survive. Learn how going digital can increase foot traffic, customer loyalty, and sales for local shops.</p>
+                <div class="blog-card__meta">January 2025 · 12 min read</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer__bottom">
+          <p>&copy; 2026 Little Fight NYC. Built in New York with guts &amp; grit.</p>
+          <div class="footer__legal">
+            <a href="../privacy.html">Privacy Policy</a>
+            <a href="../terms.html">Terms of Service</a>
+          </div>
+        </div>
+        <p class="footer__credit">Designed, Hosted and Cared For by <a href="https://littlefightnyc.com">LittleFightNYC.com</a></p>
+      </div>
     </footer>
 
     <script src="../js/main.js"></script>

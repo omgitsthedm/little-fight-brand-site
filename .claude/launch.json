@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "lifi-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "/Users/davidmarsh/Desktop/LiFi NYC/Brand/Website-Rebuild"],
+      "port": 8080
+    }
+  ]
+}
