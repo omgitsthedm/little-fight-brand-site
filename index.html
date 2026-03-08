@@ -108,7 +108,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <style>
       /* Fallback font to prevent CLS */
       @font-face {
-        font-family: "Lexend Fallback";
+        font-family: "Space Grotesk Fallback";
         src: local("Arial");
         size-adjust: 100%;
         ascent-override: 90%;
@@ -116,15 +116,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         line-gap-override: 0%;
       }
       :root {
-        --text-primary: #1f2326;
+        --text-primary: #2b2b2b;
         --text-secondary: #3e454d;
         --text-muted: #5e6770;
-        --accent-ui: #ff5a00;
-        --accent-ui-strong: #ff5a00;
+        --accent-ui: #fe5900;
+        --accent-ui-strong: #fe5900;
         --accent-ui-strong-hover: #ff7a33;
-        --accent-ui-contrast: #11294f;
+        --accent-ui-contrast: #ffffff;
         --accent-text: #1f5bbe;
-        --bg-dark: #1f2326;
+        --bg-dark: #2b2b2b;
         --footer-text: #b8bfc8;
       }
       * {
@@ -229,7 +229,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         font-size: 0.95rem;
       }
       .nav-cta {
-        background: #c94800;
+        background: var(--accent-ui-strong);
         color: var(--accent-ui-contrast) !important;
         padding: 10px 20px;
         border-radius: 50px;
