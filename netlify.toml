@@ -78,6 +78,15 @@ for = "/*.png"
   Cache-Control = "public, max-age=31536000, immutable"
 
 [[redirects]]
+from = "/*"
+to = "https://littlefightnyc.com/:splat"
+status = 301
+force = true
+
+  [redirects.conditions]
+  Host = "hey.littlefightnyc.com"
+
+[[redirects]]
 from = "/website-design-small-business-nyc/"
 to = "/services/website-design-small-business-nyc/"
 status = 301

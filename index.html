@@ -87,143 +87,372 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <!-- Preload critical font -->
     <link rel="preload" href="/fonts/mdi-subset.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/tokens.css" />
     <link
       rel="preload"
-      href="css/styles.min.css?v=20260307a"
+      href="css/styles.min.css?v=20260209a"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <link
       rel="preload"
-      href="css/a11y-fixes.min.css?v=20260307a"
+      href="css/a11y-fixes.min.css?v=20260209a"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
-      <link rel="stylesheet" href="css/styles.min.css?v=20260307a" />
-      <link rel="stylesheet" href="css/a11y-fixes.min.css?v=20260307a" />
+      <link rel="stylesheet" href="css/styles.min.css?v=20260209a" />
+      <link rel="stylesheet" href="css/a11y-fixes.min.css?v=20260209a" />
     </noscript>
 
-    <!-- Critical CSS - v3 Design System -->
+    <!-- Critical CSS - Inlined to eliminate render blocking -->
     <style>
+      /* Fallback font to prevent CLS */
       @font-face {
-        font-family: "Outfit Fallback";
+        font-family: "Space Grotesk Fallback";
         src: local("Arial");
         size-adjust: 100%;
         ascent-override: 90%;
         descent-override: 22%;
         line-gap-override: 0%;
       }
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        color: var(--lf-text);
-        background-color: var(--lf-bg);
-        line-height: 1.7;
+      :root {
+        --text-primary: #2b2b2b;
+        --text-secondary: #3e454d;
+        --text-muted: #5e6770;
+        --accent-ui: #fe5900;
+        --accent-ui-strong: #fe5900;
+        --accent-ui-strong-hover: #ff7a33;
+        --accent-ui-contrast: #ffffff;
+        --accent-text: #1f5bbe;
+        --bg-dark: #2b2b2b;
+        --footer-text: #b8bfc8;
       }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          sans-serif;
+        color: var(--text-primary);
+        background-color: #fff;
+        background-image:
+          radial-gradient(
+            circle at 8% 14%,
+            rgba(241, 142, 96, 0.13) 0 132px,
+            transparent 133px
+          ),
+          radial-gradient(
+            circle at 88% 18%,
+            rgba(35, 101, 207, 0.1) 0 152px,
+            transparent 153px
+          ),
+          radial-gradient(
+            circle at 14% 72%,
+            rgba(255, 208, 184, 0.2) 0 126px,
+            transparent 127px
+          ),
+          radial-gradient(
+            circle at 82% 78%,
+            rgba(35, 101, 207, 0.07) 0 140px,
+            transparent 141px
+          );
+        background-attachment: fixed;
+        line-height: 1.6;
+      }
+      /* Nav */
       nav {
-        position: fixed; top: 0; left: 0; right: 0;
-        background: rgba(246, 243, 238, 0.92);
-        backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-        border-bottom: 1px solid var(--lf-surface-border);
-        z-index: 1000; padding: 0 32px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        padding: 0 24px;
       }
       .nav-container {
-        max-width: 1200px; margin: 0 auto;
-        display: flex; align-items: center; justify-content: space-between;
-        height: 72px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
       }
-      .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
       .nav-logo-box {
-        width: 44px; height: 44px; background: var(--lf-orange); border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        color: #fff; font-weight: 900; font-size: 0.55rem; line-height: 1.1; text-align: center;
+        width: 45px;
+        height: 45px;
+        background: var(--accent-ui-strong);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-ui-contrast);
+        font-weight: 900;
+        font-size: 0.55rem;
+        line-height: 1.1;
+        text-align: center;
       }
-      .nav-logo-text { font-family: "Outfit", sans-serif; font-weight: 600; font-size: 1.1rem; color: var(--lf-text); }
-      .nav-links { display: flex; align-items: center; gap: 24px; }
-      .nav-links a { color: var(--lf-text-muted); font-weight: 500; text-decoration: none; font-size: 0.92rem; }
-      .nav-cta { background: var(--lf-orange); color: #fff !important; padding: 10px 22px; border-radius: 9999px; font-weight: 600; }
-      .nav-cta-outline { background: transparent; color: var(--lf-text) !important; border: 1.5px solid var(--lf-text-muted); padding: 10px 22px; border-radius: 9999px; font-weight: 600; font-size: 0.92rem; text-decoration: none; }
-      .nav-toggle { display: none; }
+      .nav-logo-text {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: var(--text-primary);
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      .nav-links a {
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+      .nav-cta {
+        background: var(--accent-ui-strong);
+        color: var(--accent-ui-contrast) !important;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+      }
+      .nav-toggle {
+        display: none;
+      }
+      /* Hero */
       .hero {
-        min-height: calc(100vh - 72px); display: flex; align-items: center;
-        background: var(--lf-surface); color: var(--lf-bg);
-        padding: 136px 24px 64px; position: relative; overflow: hidden;
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #fcede6 0%, #fff 50%, #eaebec 100%);
+        padding: 80px 24px 32px;
+        position: relative;
+        overflow: hidden;
       }
       .hero-container {
-        max-width: 1280px; margin: 0 auto;
-        display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px;
-        align-items: flex-start; position: relative; width: 100%; z-index: 2;
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        align-items: flex-start;
+        position: relative;
+        width: 100%;
       }
-      .hero-content { position: relative; z-index: 1; }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
       .hero-badge {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 8px 16px; background: rgba(254,89,0,0.08);
-        border: 1px solid rgba(254,89,0,0.2); border-radius: 9999px;
-        font-size: 0.9rem; font-weight: 600; color: var(--lf-orange); margin-bottom: 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: rgba(64, 124, 138, 0.12);
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--accent-text);
+        margin-bottom: 24px;
       }
       .hero-title {
-        font-family: "Outfit", sans-serif;
-        font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 600;
-        letter-spacing: -0.02em; line-height: 1.2;
-        margin-bottom: 24px; color: var(--lf-bg);
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 24px;
+        color: var(--bg-dark);
       }
-      .hero-title .highlight { color: var(--lf-orange); }
-      .hero-subtitle { font-size: 1.125rem; color: var(--lf-text-muted); margin-bottom: 32px; line-height: 1.7; }
-      .hero-buttons { display: flex; gap: 16px; margin-bottom: 24px; min-height: 58px; }
+      .hero-title .highlight {
+        color: var(--accent-ui);
+      }
+      .hero-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        min-height: 58px;
+      }
       .btn {
-        padding: 16px 32px; border-radius: 9999px; font-weight: 600; font-size: 1.1rem;
-        text-decoration: none; border: 2px solid transparent;
-        display: inline-flex; align-items: center; justify-content: center;
-        min-height: 58px; line-height: 1.2;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border: 2px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 58px;
+        line-height: 1.2;
       }
-      .btn-primary { background: var(--lf-orange); color: #fff; }
-      .btn-secondary { background: transparent; color: var(--lf-bg); border-color: var(--lf-text-muted); }
-      .hero-note { font-size: 0.875rem; color: var(--lf-text-muted); }
-      .hero-visual { position: relative; }
+      .btn-primary {
+        background: var(--accent-ui-strong);
+        color: var(--accent-ui-contrast);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: var(--accent-text);
+        border-color: var(--accent-text);
+      }
+      .hero-note {
+        font-family: Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+      }
+      /* Hero visual - must be in critical CSS to prevent CLS */
+      .hero-visual {
+        position: relative;
+      }
       .illustration {
-        position: relative; width: 100%;
-        height: clamp(340px, 42vh, 520px); border-radius: 16px;
-        overflow: hidden; background: linear-gradient(180deg, #3A362F 0%, var(--lf-surface) 100%);
+        position: relative;
+        width: 100%;
+        height: clamp(340px, 42vh, 520px);
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(180deg, #E4EEF8 0%, #EDF3F9 40%, #F2F5F9 100%);
       }
       .city-buildings-row {
-        position: absolute; left: 0; right: 0; bottom: 20px;
-        display: flex; align-items: flex-end; height: 340px; z-index: 5;
+        position: absolute;
+        left: 0; right: 0; bottom: 20px;
+        display: flex;
+        align-items: flex-end;
+        height: 340px;
+        z-index: 5;
       }
-      .city-building { position: relative; display: flex; flex-direction: column; justify-content: flex-end; flex-shrink: 0; }
-      .city-bakery { width: 17%; } .city-cafe { width: 18%; } .city-hotel { width: 28%; } .city-realty { width: 18%; } .city-restaurant { width: 19%; }
+      .city-building {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        flex-shrink: 0;
+      }
+      .city-bakery { width: 17%; }
+      .city-cafe { width: 18%; }
+      .city-hotel { width: 28%; }
+      .city-realty { width: 18%; }
+      .city-restaurant { width: 19%; }
       .city-sidewalk {
-        position: absolute; left: 0; right: 0; bottom: 0; height: 20px;
-        background: linear-gradient(180deg, #4A453D, #3A362F);
-        border-top: 2px solid #5A544C; z-index: 10;
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 20px;
+        background: linear-gradient(180deg, #B8AF9E, #C8BFAD);
+        border-top: 2px solid #A09882;
+        z-index: 10;
       }
-      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      /* Tablet */
       @media (max-width: 968px) {
-        .hero { padding: 100px 20px 40px; min-height: auto; }
-        .hero-container { grid-template-columns: 1fr; gap: 24px; }
-        .hero-visual { order: 2; max-width: 520px; margin: 0 auto; width: 100%; }
-        .illustration { height: 300px; }
-        .nav-toggle { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 10px; background: none; border: none; cursor: pointer; }
-        .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--lf-text); border-radius: 2px; }
-        .nav-links { opacity: 0; visibility: hidden; }
-        .nav-links.active { opacity: 1; visibility: visible; }
+        .hero {
+          padding: 80px 20px 32px;
+          min-height: auto;
+        }
+        .hero-container {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .hero-visual {
+          order: 2;
+          max-width: 520px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .illustration {
+          height: 300px;
+        }
       }
+      /* Tablet + Mobile nav */
+      @media (max-width: 968px) {
+        .nav-toggle {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          width: 44px;
+          height: 44px;
+          padding: 10px;
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+        .nav-toggle span {
+          display: block;
+          width: 24px;
+          height: 2px;
+          background: var(--text-primary);
+          border-radius: 2px;
+        }
+        .nav-links {
+          opacity: 0;
+          visibility: hidden;
+        }
+        .nav-links.active {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+      /* Mobile */
       @media (max-width: 640px) {
-        .hero { padding: 88px 16px 32px; }
-        .hero-container { gap: 20px; }
-        .hero-visual { max-width: 100%; }
-        .illustration { height: 260px; border-radius: 12px; }
-        .hero-buttons { flex-direction: column; align-items: stretch; }
-        .btn { text-align: center; }
+        .hero {
+          padding: 76px 16px 24px;
+        }
+        .hero-container {
+          gap: 20px;
+        }
+        .hero-visual {
+          max-width: 100%;
+        }
+        .illustration {
+          height: 260px;
+          border-radius: 12px;
+        }
+        .hero-buttons {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          text-align: center;
+        }
       }
     </style>
 
     <!-- Fonts disabled temporarily to achieve 100 PageSpeed score -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 
     <!-- Schema.org LocalBusiness -->
     <script type="application/ld+json">
@@ -349,13 +578,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </button>
 
         <div class="nav-links" id="nav-links">
+          <a href="/">Home</a>
           <a href="/services/">Services</a>
-          <a href="#how-it-works">How It Works</a>
+          <a href="/solutions/">Solutions</a>
           <a href="/work/">Work</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
-          <a href="https://audits.littlefightnyc.com" class="nav-cta-outline">Free Audit</a>
-          <a href="#contact" class="nav-cta">Get Help Today</a>
+          <a href="/industries.html">Industries</a>
+          <a href="/about/">About</a>
+          <a href="/blog/">Blog</a>
+          <a href="/contact/">Contact</a>
+          <a href="/contact/" class="nav-cta">Let's Talk</a>
         </div>
       </div>
     </nav>
@@ -385,7 +616,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <a href="#contact" class="btn btn-primary">Get Help Today</a>
               <a href="/services/" class="btn btn-secondary">See What We Do</a>
             </div>
-            <p class="hero-note">First hour of consulting is free — no strings attached.</p>
+            <p class="hero-note">👋 First hour of consulting is free!</p>
           </div>
 
           <div class="hero-visual">
@@ -653,6 +884,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div class="service-card">
               <div class="service-icon">
+                <i class="mdi mdi-palette-outline" aria-hidden="true"></i>
+              </div>
+              <h3 class="service-title">
+                <a href="/services/branding-and-identity-design/"
+                  >Branding & Identity</a
+                >
+              </h3>
+              <p class="service-description">
+                Need a logo, name, or complete visual identity? We'll help you
+                look legit.
+              </p>
+            </div>
+
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="mdi mdi-cart-outline" aria-hidden="true"></i>
+              </div>
+              <h3 class="service-title">
+                <a href="/services/ecommerce-setup-shopify-square-woocommerce/"
+                  >E-Commerce Setup</a
+                >
+              </h3>
+              <p class="service-description">
+                Start selling online with Shopify, Square, or WooCommerce. We
+                set it all up.
+              </p>
+            </div>
+
+            <div class="service-card">
+              <div class="service-icon">
                 <i class="mdi mdi-cash-register" aria-hidden="true"></i>
               </div>
               <h3 class="service-title">
@@ -663,6 +924,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p class="service-description">
                 Square, Clover, Toast—we work with them all. Setup,
                 troubleshooting, training.
+              </p>
+            </div>
+
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="mdi mdi-compass-outline" aria-hidden="true"></i>
+              </div>
+              <h3 class="service-title">
+                <a href="/services/tech-consulting-small-business/"
+                  >Tech Consulting</a
+                >
+              </h3>
+              <p class="service-description">
+                Not sure what you need? Let's talk. First hour is free.
               </p>
             </div>
 
@@ -681,15 +956,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </p>
             </div>
           </div>
-          <p style="text-align: center; margin-top: 32px">
-            <a href="/services/" class="btn btn-secondary" style="color: var(--lf-graphite); border-color: var(--lf-stone);"
-              >View All Services →</a
+          <p style="text-align: center; margin-top: 28px">
+            <a href="/services/" class="btn btn-secondary"
+              >Explore All Service Pages</a
             >
           </p>
         </div>
       </section>
 
-      <section id="how-it-works" class="premium-difference section-shell section-shell-soft">
+      <section class="premium-difference section-shell section-shell-soft">
         <div class="container premium-difference-grid">
           <div class="premium-difference-copy">
             <p class="section-eyebrow">WHAT FEELS DIFFERENT</p>
@@ -770,57 +1045,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           >
             <div
               style="
-                background: var(--lf-surface);
+                background: #fff;
                 padding: 24px;
                 border-radius: 12px;
-                border: 1px solid var(--lf-surface-border);
+                border: 1px solid #e0e0e0;
               "
             >
               <h3 style="font-weight: 700; margin-bottom: 12px">
                 🗽 Manhattan On-Site Service
               </h3>
-              <p style="color: var(--lf-text-muted); margin-bottom: 12px">
+              <p style="color: #595959; margin-bottom: 12px">
                 <a
                   href="areas/east-village.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >East Village</a
                 >
                 •
                 <a
                   href="areas/lower-east-side.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >Lower East Side</a
                 >
                 •
                 <a
                   href="areas/west-village.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >West Village</a
                 >
               </p>
-              <p style="color: var(--lf-text-muted); margin-bottom: 12px">
+              <p style="color: #595959; margin-bottom: 12px">
                 <a
                   href="areas/meatpacking-district.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >Meatpacking District</a
                 >
                 •
                 <a
                   href="areas/soho.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >SoHo</a
                 >
                 •
                 <a
                   href="areas/midtown.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >Midtown</a
                 >
               </p>
-              <p style="color: var(--lf-text-muted)">
+              <p style="color: #595959">
                 <a
                   href="areas/upper-east-side.html"
-                  style="color: var(--lf-orange); text-decoration: none"
+                  style="color: #407c8a; text-decoration: none"
                   >Upper East Side</a
                 >
               </p>
@@ -828,22 +1103,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <div
               style="
-                background: var(--lf-surface);
+                background: #fff;
                 padding: 24px;
                 border-radius: 12px;
-                border: 1px solid var(--lf-surface-border);
+                border: 1px solid #e0e0e0;
               "
             >
               <h3 style="font-weight: 700; margin-bottom: 12px">
                 🌎 Nationwide Remote Support
               </h3>
-              <p style="color: var(--lf-text-muted)">
+              <p style="color: #595959">
                 Not in NYC? We've got you covered. Our remote IT support helps
                 small businesses across all 50 states. Screen sharing, phone
                 support, video calls—we're your virtual IT team no matter where
                 you're located.
               </p>
-              <p style="color: var(--lf-text-muted); margin-top: 12px">
+              <p style="color: #595959; margin-top: 12px">
                 🖥️ Screen sharing troubleshooting<br />
                 <i class="mdi mdi-phone" aria-hidden="true"></i> Phone & video
                 support<br />
@@ -976,7 +1251,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <i class="mdi mdi-email-outline" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <div style="font-size: 0.875rem; color: var(--lf-text-muted)">
+                  <div style="font-size: 0.875rem; color: #767676">
                     Email us
                   </div>
                   <div style="font-size: 1.1rem; font-weight: 600">
@@ -994,7 +1269,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <i class="mdi mdi-phone-outline" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <div style="font-size: 0.875rem; color: var(--lf-text-muted)">Call us</div>
+                  <div style="font-size: 0.875rem; color: #767676">Call us</div>
                   <div style="font-size: 1.1rem; font-weight: 600">
                     646-360-0318
                   </div>
@@ -1006,7 +1281,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <i class="mdi mdi-map-marker" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <div style="font-size: 0.875rem; color: var(--lf-text-muted)">
+                  <div style="font-size: 0.875rem; color: #767676">
                     Based in
                   </div>
                   <div style="font-size: 1.1rem; font-weight: 600">

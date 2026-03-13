@@ -1,15 +1,15 @@
-/* Accessibility overrides — dark theme with orange-first brand controls */
+/* Accessibility overrides with orange-first brand controls and blue contrast support */
 :root {
-  --brand-orange-accessible: var(--lf-orange, #ff6b35);
-  --brand-orange-hover: var(--lf-orange-hover, #ff8255);
+  --brand-orange-accessible: #ff5a00;
+  --brand-orange-hover: #ff7a33;
   --brand-orange-ink: #ffffff;
-  --accent-accessible: #6ea8fe;
-  --accent-hover: #8bb9fe;
-  --accent-bright: #5a9cfe;
+  --accent-accessible: #1f5bbe;
+  --accent-hover: #184a99;
+  --accent-bright: #2b71db;
   --accent-on-dark: #a8c6ff;
-  --accent-tint: rgba(110, 168, 254, 0.12);
-  --gray-accessible: var(--lf-text-muted, #888888);
-  --gray-muted: #999999;
+  --accent-tint: rgba(31, 91, 190, 0.14);
+  --gray-accessible: #3e454d;
+  --gray-muted: #5e6770;
 }
 
 .section-eyebrow,
@@ -74,14 +74,14 @@ footer .footer-text,
 footer .footer-copyright,
 footer .footer-links a,
 footer .footer-legal a {
-  color: var(--lf-text-muted, #888888) !important;
+  color: #b8bfc8 !important;
 }
 
 footer .footer-links a:hover,
 footer .footer-links a:focus,
 footer .footer-legal a:hover,
 footer .footer-legal a:focus {
-  color: var(--lf-text, #f0f0f0) !important;
+  color: #fff !important;
   text-decoration: underline;
 }
 
@@ -90,7 +90,7 @@ footer .footer-credit a {
 }
 
 footer .footer-credit a:hover {
-  color: var(--lf-text, #f0f0f0) !important;
+  color: #fff !important;
 }
 
 .service-card:hover {
@@ -100,7 +100,7 @@ footer .footer-credit a:hover {
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--accent-accessible);
-  box-shadow: 0 0 0 3px rgba(110, 168, 254, 0.2);
+  box-shadow: 0 0 0 3px rgba(31, 91, 190, 0.2);
 }
 
 .contact-icon {
@@ -110,12 +110,12 @@ footer .footer-credit a:hover {
 /* Tighten logo contrast for automated accessibility checks */
 nav .nav-logo-box,
 footer .footer-logo-box {
-  background: var(--lf-orange, #ff6b35) !important;
+  background: #8c2f00 !important;
 }
 
 /* City illustration storefront sign labels need stronger contrast */
 .city-shop-sign {
-  color: var(--lf-text, #f0f0f0) !important;
+  color: #181b1f !important;
   text-shadow: none !important;
 }
 
