@@ -1,12 +1,12 @@
 :root {
-  --consent-bg: rgba(255, 255, 255, 0.97);
-  --consent-border: rgba(255, 90, 0, 0.24);
-  --consent-shadow: 0 20px 44px rgba(13, 24, 38, 0.2);
-  --consent-text: #1f2326;
-  --consent-subtext: #4b5560;
-  --consent-brand: #ff5a00;
-  --consent-brand-hover: #d9540c;
-  --consent-outline: #1f5bbe;
+  --consent-bg: rgba(26, 26, 26, 0.97);
+  --consent-border: rgba(255, 107, 53, 0.24);
+  --consent-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
+  --consent-text: #f0f0f0;
+  --consent-subtext: #999999;
+  --consent-brand: var(--lf-orange, #ff6b35);
+  --consent-brand-hover: var(--lf-orange-hover, #ff8255);
+  --consent-outline: #6ea8fe;
 }
 
 .consent-banner {
@@ -45,7 +45,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #ff5a00, #ff7a33);
+  background: linear-gradient(135deg, var(--lf-orange, #ff6b35), var(--lf-orange-hover, #ff8255));
 }
 
 .consent-banner__text {
@@ -96,19 +96,19 @@
 
 .consent-btn--secondary {
   color: var(--consent-text);
-  background: #fff;
-  border-color: #cfd7df;
+  background: var(--lf-surface-border, #2a2a2a);
+  border-color: #3a3a3a;
 }
 
 .consent-btn--secondary:hover {
-  border-color: #b7c2cb;
-  background: #f8fbff;
+  border-color: #4a4a4a;
+  background: #333333;
 }
 
 .consent-link {
   margin-left: auto;
   align-self: center;
-  color: #1f5bbe;
+  color: #6ea8fe;
   font-size: 0.84rem;
   font-weight: 600;
   text-decoration: none;

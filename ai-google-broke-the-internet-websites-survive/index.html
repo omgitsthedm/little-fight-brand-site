@@ -45,9 +45,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#FF5A00">
-    <link rel="stylesheet" href="/css/styles.css?v=20260214b">
-    <link rel="stylesheet" href="/css/a11y-fixes.css?v=20260214b">
-    <link rel="stylesheet" href="/css/services.css?v=20260214b">
+        <link rel="stylesheet" href="/css/tokens.css" />
+<link rel="stylesheet" href="/css/styles.css?v=20260307a">
+    <link rel="stylesheet" href="/css/a11y-fixes.css?v=20260307a">
+    <link rel="stylesheet" href="/css/services.css?v=20260307a">
     <style>
         .article-shell {
             max-width: 840px;
@@ -130,7 +131,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-top: 34px;
             border: 1px solid #e6edf2;
             border-radius: 14px;
-            background: #fff;
+            background: var(--lf-bg);
             padding: 22px;
         }
 
@@ -279,7 +280,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       ]
     }
     </script>
-  <link rel="stylesheet" href="/css/consent-banner.css?v=20260214a" />
+  <link rel="stylesheet" href="/css/consent-banner.css?v=20260307a" />
 </head>
 <body class="page-shell service-detail theme-ocean">
 <!-- Google Tag Manager (noscript) -->
@@ -300,15 +301,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </button>
 
             <div class="nav-links" id="nav-links">
-                <a href="/">Home</a>
-                <a href="/services/">Services</a>
-                <a href="/solutions/">Solutions</a>
-                <a href="/work/">Work</a>
-                <a href="/industries.html">Industries</a>
-                <a href="/about/">About</a>
-                <a href="/blog/" aria-current="page">Blog</a>
-                <a href="/contact/">Contact</a>
-                <a href="/contact/" class="nav-cta">Let's Talk</a>
+              <a href="/services/">Services</a>
+              <a href="/#how-it-works">How It Works</a>
+              <a href="/work/">Work</a>
+              <a href="/#faq">FAQ</a>
+              <a href="/#contact">Contact</a>
+              <a href="https://audits.littlefightnyc.com" class="nav-cta-outline">Free Audit</a>
+              <a href="/#contact" class="nav-cta">Get Help Today</a>
             </div>
         </div>
     </nav>
@@ -435,7 +434,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <h3 id="next-step-title">Want your website built for this new search reality?</h3>
                     <p>We help local businesses turn confusion into a clear, modern site structure that gets found and gets trusted.</p>
                     <div class="hero-actions">
-                        <a href="/contact/" class="btn btn-primary" style="background:#fff;color:#407C8A !important;">Book a Friendly Call</a>
+                        <a href="/contact/" class="btn btn-primary" style="background: var(--lf-surface);color: var(--lf-orange) !important;">Book a Friendly Call</a>
                         <a href="/solutions/" class="btn btn-secondary" style="border-color:#fff;color:#fff;">See the Full Strategy Flow</a>
                     </div>
                 </section>
