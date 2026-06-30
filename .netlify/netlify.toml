@@ -1,0 +1,50 @@
+functionsDirectory = "/Users/davidmarsh/Desktop/LiFi NYC/Shared/little-fight-brand-site/netlify/functions"
+functionsDirectoryOrigin = "ui"
+headersOrigin = "config"
+redirectsOrigin = "config"
+plugins = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/davidmarsh/Desktop/LiFi NYC/Shared/little-fight-brand-site"
+publishOrigin = "config"
+commandOrigin = "ui"
+functions = "/Users/davidmarsh/Desktop/LiFi NYC/Shared/little-fight-brand-site/netlify/functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]

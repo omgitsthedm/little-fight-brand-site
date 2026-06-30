@@ -362,6 +362,66 @@ section {
     color: #666;
 }
 
+/* ── Audit CTA Banner ── */
+.audit-cta {
+    margin-top: 48px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    transition: all 0.3s;
+}
+.audit-cta:hover {
+    border-color: #FE5800;
+    box-shadow: 0 12px 40px rgba(254, 88, 0, 0.15);
+}
+.audit-cta-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+.audit-cta-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+.audit-cta-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+}
+.audit-cta-text {
+    color: #aaa;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    max-width: 420px;
+}
+.audit-cta-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .audit-cta {
+        flex-direction: column;
+        text-align: center;
+        padding: 28px 24px;
+    }
+    .audit-cta-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .audit-cta-text {
+        max-width: 100%;
+    }
+    .audit-cta-btn {
+        width: 100%;
+    }
+}
+
 .cta-section {
     background: linear-gradient(135deg, #FE5800 0%, #FF6B35 100%);
     color: #fff;
