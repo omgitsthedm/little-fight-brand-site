@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Little Fight NYC logo">
+  <rect width="512" height="512" fill="#ff5a00" />
+  <g fill="#ffffff" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="126" letter-spacing="1.2">
+    <text x="20" y="152">LITTLE</text>
+    <text x="20" y="298">FIGHT</text>
+    <text x="20" y="444">NYC</text>
+  </g>
+</svg>

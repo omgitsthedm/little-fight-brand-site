@@ -1,0 +1,501 @@
+<!-- Extracted from: Brand/Website - Dev/Littlefightnyc overhaul/ -->
+<!-- Reference file: unique sections from the overhaul that don't exist in the current master -->
+<!-- Created: 2026-03-10 -->
+<!-- NOTE: This is an ARCHIVE reference file — not for production use -->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overhaul Reference — Unique Sections</title>
+
+  <style>
+    /* ================================================================
+       BASE VARIABLES (from overhaul :root)
+       ================================================================ */
+    :root {
+      --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --text-primary: #1f2326;
+      --text-secondary: #3e454d;
+      --text-muted: #5e6770;
+      --brand-orange: #ff5a00;
+      --brand-haze: #eaebec;
+      --brand-ming: #1f5bbe;
+      --accent-ui: #ff5a00;
+      --accent-ui-strong: #ff5a00;
+      --accent-ui-strong-hover: #ff7a33;
+      --accent-ui-contrast: #ffffff;
+      --accent-text: #1f5bbe;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --glass-blur: blur(16px);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 16px 48px -12px rgba(31, 91, 190, 0.15);
+      --bg-primary: #fff;
+      --bg-secondary: #eaebec;
+      --bg-dark: #1f2326;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    /* Shared layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-shell {
+      padding: 84px 24px;
+    }
+    .section-shell-soft {
+      background:
+        linear-gradient(180deg,
+          rgba(234, 235, 236, 0.66),
+          rgba(255, 255, 255, 0.95)),
+        repeating-linear-gradient(90deg,
+          rgba(64, 124, 138, 0.06) 0 1px,
+          transparent 1px 70px);
+    }
+    .section-eyebrow {
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-ui);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--bg-dark);
+    }
+    .section-description {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Reference-only header */
+    .ref-header {
+      background: #1f2326;
+      color: #fff;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .ref-header h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    .ref-header p { color: #b8bfc8; font-size: 0.95rem; }
+    .ref-label {
+      display: block;
+      background: var(--accent-ui);
+      color: #fff;
+      text-align: center;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* ================================================================
+       SECTION 1: PROOF STRIP
+       ================================================================
+       3 value pillars with glassmorphic "proof pill" cards.
+       Positioned right after the hero in the overhaul.
+       Uses backdrop-filter blur for a premium glass effect.
+       ================================================================ */
+
+    .proof-strip {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .proof-strip-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-text);
+      margin-bottom: 16px;
+    }
+
+    .proof-pill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .proof-pill {
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 20px 20px 18px;
+      box-shadow: var(--shadow-md);
+      transition:
+        transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.3s ease;
+    }
+
+    .proof-pill:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .proof-pill h3 {
+      font-size: 1.04rem;
+      margin-bottom: 6px;
+      color: var(--bg-dark);
+    }
+
+    .proof-pill p {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+    }
+
+    .proof-strip-links {
+      margin-top: 16px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .proof-strip-links a {
+      color: var(--accent-text);
+      font-weight: 600;
+      text-underline-offset: 3px;
+    }
+
+
+    /* ================================================================
+       SECTION 2: WAVE DIVIDER SVG
+       ================================================================
+       Decorative SVG wave placed between sections.
+       Creates a smooth visual transition instead of a hard edge.
+       Height is 80px; SVG uses preserveAspectRatio="none" to stretch.
+       ================================================================ */
+
+    .section-wave {
+      position: relative;
+      width: 100%;
+      height: 80px;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    .section-wave svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+
+    /* ================================================================
+       SECTION 3: PREMIUM DIFFERENCE
+       ================================================================
+       Before / After / Outcome comparison grid.
+       Left column = copy + pill links; right column = 3 stacked cards.
+       Uses a 1.1fr / 0.9fr split for visual weight.
+       ================================================================ */
+
+    .premium-difference {
+      padding-top: 84px;
+      padding-bottom: 84px;
+    }
+
+    .premium-difference-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .premium-difference-copy {
+      background: #fff;
+      border: 1px solid #e7edf2;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 14px 32px rgba(9, 35, 56, 0.07);
+    }
+
+    .premium-difference-links {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .premium-difference-links a {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid #d6e2ea;
+      padding: 8px 14px;
+      text-decoration: none;
+      color: var(--accent-text);
+      font-weight: 700;
+      font-size: 0.88rem;
+      background: #fff;
+    }
+
+    .premium-difference-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .premium-point {
+      background: linear-gradient(180deg, #fff, #f7f9fb);
+      border-radius: 14px;
+      border: 1px solid #e3eaf0;
+      padding: 18px 18px 14px;
+    }
+
+    .premium-point h3 {
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+      color: var(--accent-text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .premium-point p {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+    }
+
+
+    /* ================================================================
+       RESPONSIVE OVERRIDES
+       ================================================================ */
+
+    @media (max-width: 968px) {
+      .premium-difference-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .proof-pill-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .proof-strip {
+        padding-top: 44px;
+        padding-bottom: 44px;
+      }
+      .premium-difference-copy {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       REFERENCE HEADER (not part of original — just for context)
+       ============================================================ -->
+  <div class="ref-header">
+    <h1>Overhaul Reference — Unique Sections</h1>
+    <p>Extracted from: Brand/Website - Dev/Littlefightnyc overhaul/</p>
+    <p>These sections do not exist in the current master rebuild.</p>
+  </div>
+
+
+  <!-- ============================================================
+       SECTION 1: PROOF STRIP
+       ============================================================
+       Location in overhaul: Directly after the hero section.
+       Purpose: 3 value pillars ("Clear Descriptions", "Easy to Use",
+       "Trustworthy Details") presented as glassmorphic proof-pill cards.
+       Uses backdrop-filter for the frosted-glass look.
+       Includes a link strip underneath pointing to Case Studies,
+       Services, and Start a Project.
+       ============================================================ -->
+  <div class="ref-label">SECTION 1: Proof Strip (3 Value Pillars with Proof Pills)</div>
+
+  <section class="proof-strip section-shell">
+    <div class="container">
+      <p class="proof-strip-label">Built for the businesses that keep NYC alive</p>
+      <h2 class="sr-only">Why small businesses choose Little Fight NYC</h2>
+      <div class="proof-pill-grid">
+        <article class="proof-pill">
+          <h3>Clear Descriptions</h3>
+          <p>We describe what you do in simple words that your customers (and Google) can understand right away.</p>
+        </article>
+        <article class="proof-pill">
+          <h3>Easy to Use</h3>
+          <p>Your site will look great and work perfectly on every phone, making it simple for people to trust you.</p>
+        </article>
+        <article class="proof-pill">
+          <h3>Trustworthy Details</h3>
+          <p>We make sure your phone number, location, and services are easy to find so customers can reach out with confidence.</p>
+        </article>
+      </div>
+      <p class="proof-strip-links">See it in action: <a href="/work/">Case studies</a> · <a href="/services/">Services</a> · <a href="/contact/">Start a project</a></p>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2: WAVE DIVIDER SVG
+       ============================================================
+       Location in overhaul: Between the Proof Strip and the Services
+       section.
+       Purpose: Smooth organic transition between sections, replacing
+       hard edges. Uses a single SVG path with a gentle S-curve.
+       The fill color (rgba(234,235,236,0.5)) matches the soft
+       section background tint.
+       aria-hidden="true" because it's purely decorative.
+       ============================================================ -->
+  <div class="ref-label">SECTION 2: Wave Divider SVG (Section Transition)</div>
+
+  <div class="section-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="rgba(234,235,236,0.5)" d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,80 L0,80 Z" />
+    </svg>
+  </div>
+
+
+  <!-- ============================================================
+       SECTION 3: PREMIUM DIFFERENCE (Before / After / Outcome)
+       ============================================================
+       Location in overhaul: After the Services grid section.
+       Purpose: Shows the transformation journey in 3 steps:
+         - Before: pain state (slow site, confusing links)
+         - After: resolved state (fast, professional)
+         - Outcome: business result (fewer questions, more leads)
+
+       Layout: 2-column grid (1.1fr copy | 0.9fr cards).
+       Left column has eyebrow + headline + description + pill links.
+       Right column stacks 3 premium-point cards vertically.
+
+       The pill-style links at the bottom of the copy column provide
+       secondary navigation to blog and website design service page.
+       ============================================================ -->
+  <div class="ref-label">SECTION 3: Premium Difference (Before / After / Outcome)</div>
+
+  <section class="premium-difference section-shell section-shell-soft">
+    <div class="container premium-difference-grid">
+      <div class="premium-difference-copy">
+        <p class="section-eyebrow">WHAT FEELS DIFFERENT</p>
+        <h2 class="section-title">Premium Means Less Stress, Not More Complicated</h2>
+        <p class="section-description">When your website is fast and your message is clear, customers know they can trust you. We make sure everything works perfectly so you don't have to worry about it.</p>
+        <div class="premium-difference-links">
+          <a href="/blog/">Read strategy insights</a>
+          <a href="/services/website-design-small-business-nyc/">Explore website design</a>
+        </div>
+      </div>
+      <div class="premium-difference-list">
+        <article class="premium-point">
+          <h3>Before</h3>
+          <p>A slow website, confusing links, and customers who aren't sure how to reach you.</p>
+        </article>
+        <article class="premium-point">
+          <h3>After</h3>
+          <p>A fast, professional site where everyone knows exactly what you offer and how to get help.</p>
+        </article>
+        <article class="premium-point">
+          <h3>Outcome</h3>
+          <p>Fewer confusing questions on the phone. More calls from people who are ready to work with you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 4: CITY-GROWTH ANIMATION TIMING DIFFERENCES
+       ============================================================
+       The overhaul version of city-growth.js uses significantly
+       faster timing. Full file saved separately as city-growth-fast.js.
+
+       TIMING COMPARISON:
+       ┌───────────────────────┬────────────┬────────────┐
+       │ Parameter             │ Master     │ Overhaul   │
+       ├───────────────────────┼────────────┼────────────┤
+       │ Base delay            │ 300ms      │ 100ms      │
+       │ Floor stagger         │ 320ms      │ 150ms      │
+       │ Gap between buildings │ 200ms      │ 100ms      │
+       │ Observer threshold    │ 0.3        │ 0.1        │
+       └───────────────────────┴────────────┴────────────┘
+
+       Total animation time (approx):
+         Master:   ~8.5 seconds for all 5 buildings
+         Overhaul: ~3.5 seconds for all 5 buildings
+
+       The overhaul also uses different, more realistic service labels
+       per building type instead of generic labels:
+
+       MASTER LABELS (generic per building):
+         bakery:     Website, SEO, WiFi Fix, Branding
+         cafe:       Website, SEO, WiFi Fix, Branding, Reviews
+         hotel:      Website, SEO, WiFi Fix, Branding, CRM, Analytics
+         realty:     Website, SEO, WiFi Fix, Branding
+         restaurant: Website, SEO, WiFi Fix, Branding, Reservations
+
+       OVERHAUL LABELS (specific per building type):
+         bakery:     WiFi Fix, POS Setup, Google Maps
+         cafe:       Website, Socials
+         hotel:      Network, Security, Backup
+         realty:     Email, Cloud
+         restaurant: Online Orders, Printers, Support
+
+       Key code differences (see city-growth-fast.js for full file):
+       ============================================================ -->
+  <div class="ref-label">SECTION 4: City-Growth Animation Timing Notes</div>
+
+  <section class="section-shell" style="background: #f8f9fa;">
+    <div class="container">
+      <h2 class="section-title">City-Growth Animation: Timing Differences</h2>
+      <p class="section-description" style="margin-bottom: 24px;">The overhaul version runs roughly 2.4x faster than the master. See the comparison table above in the HTML comments, and the full file at <code>city-growth-fast.js</code> in this same folder.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 700px;">
+        <div style="background: #fff; border: 1px solid #e3eaf0; border-radius: 12px; padding: 20px;">
+          <h3 style="color: var(--accent-text); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Master (Current)</h3>
+          <p style="font-family: monospace; font-size: 0.9rem; color: var(--text-secondary);">
+            base delay: <strong>300ms</strong><br>
+            floor stagger: <strong>320ms</strong><br>
+            building gap: <strong>200ms</strong><br>
+            observer: <strong>0.3</strong>
+          </p>
+        </div>
+        <div style="background: #fff; border: 1px solid #e3eaf0; border-radius: 12px; padding: 20px;">
+          <h3 style="color: var(--accent-ui); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Overhaul (Faster)</h3>
+          <p style="font-family: monospace; font-size: 0.9rem; color: var(--text-secondary);">
+            base delay: <strong>100ms</strong><br>
+            floor stagger: <strong>150ms</strong><br>
+            building gap: <strong>100ms</strong><br>
+            observer: <strong>0.1</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

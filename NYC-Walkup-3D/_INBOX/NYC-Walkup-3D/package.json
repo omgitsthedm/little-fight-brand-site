@@ -1,0 +1,9 @@
+{
+  "name": "nyc-walkup-3d",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive 3D NYC brownstone walk-up built with Three.js",
+  "scripts": {
+    "build": "echo 'Static site — no build needed' && cp -r dist/ dist/"
+  }
+}
