@@ -1,0 +1,879 @@
+<!-- Extracted from: Brand/Website - Dev/littlefightnyc-citystreet-growth/ -->
+<!--
+  MONEY SPLASH ANIMATION — Reference File
+  =========================================
+  This is a self-contained demo of the "money splash" particle effect
+  from the LiFi NYC city-street-growth concept.
+
+  WHAT IT DOES:
+  - Five storefront buildings sit in a row at the bottom of a stage.
+  - Each building grows upward floor-by-floor (services stacking).
+  - When a floor completes its entrance animation, a burst of "$" symbols
+    spawns from the top of that floor and arcs outward with physics-like
+    motion (random horizontal jitter + upward thrust), then fades out.
+
+  HOW THE SPLASH WORKS:
+  1. spawnMoneySplash() is called each time a floor becomes visible.
+  2. It calculates the (x, y) origin relative to the stage — centered
+     horizontally on the building, vertically at the top of the new floor.
+  3. It creates 4 <span class="money-splash"> elements, each with:
+     - Random horizontal offset (jitterX) for the starting position.
+     - Random directional burst (dx, dy) via CSS custom properties.
+  4. On the next animation frame, the "burst" class is added, which
+     triggers a CSS transition that moves and scales the "$" outward.
+  5. After 420ms, the "fade" class zeroes out opacity.
+  6. After 760ms, the DOM element is removed (cleanup).
+
+  CSS TRANSITION DETAILS:
+  - Duration: 620ms
+  - Easing: cubic-bezier(0.14, 0.84, 0.34, 1) — fast out, soft land
+  - Scale goes from 0.72 to 1.08 during burst
+  - Opacity fades via a separate 620ms ease transition
+
+  REDUCED MOTION:
+  - The splash is skipped entirely if prefers-reduced-motion is active.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Money Splash Animation — Reference</title>
+
+  <style>
+    /* ============================================================
+       ROOT VARIABLES
+       These match the original city-street-growth palette.
+       ============================================================ */
+    :root {
+      --brand: #ff6a13;
+      --brand-1: #ff8f4a;
+      --brand-2: #ff6a13;
+      --brand-3: #f45b08;
+      --brand-4: #db4f00;
+      --line: #bc4905;
+      --cream: #fff4df;
+      --ink: #1f1f20;
+      --muted: #5c5e61;
+      --burgundy: #64262a;
+      --gold: #cda455;
+
+      /* Floor dimensions — each service adds one floor */
+      --floor-h: 44px;
+      --floor-gap: 6px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background: #f3f4f6;
+      color: var(--ink);
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* ============================================================
+       PAGE LAYOUT
+       ============================================================ */
+    .page {
+      width: min(1180px, 95vw);
+      margin: 0 auto;
+      padding: clamp(1.2rem, 2.2vw, 2.2rem) 0 clamp(1.5rem, 3vw, 2.6rem);
+    }
+
+    .hero {
+      display: grid;
+      gap: 0.65rem;
+      max-width: 72ch;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #56595f;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 2.7rem);
+      line-height: 1.08;
+    }
+
+    .lede {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: 0.98rem;
+    }
+
+    .btn {
+      justify-self: start;
+      border: 0;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
+      padding: 0.62rem 0.9rem;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--brand-3); }
+    .btn:focus-visible {
+      outline: 3px solid rgba(255, 106, 19, 0.26);
+      outline-offset: 2px;
+    }
+
+    /* ============================================================
+       STREET STAGE — The viewport that contains all buildings
+       ============================================================ */
+    .street-stage {
+      position: relative;
+      margin-top: clamp(1rem, 2vw, 1.4rem);
+      height: clamp(430px, 64vw, 640px);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e6e8eb;
+      background: linear-gradient(180deg, #f5f7f9 0%, #eef2f6 100%);
+    }
+
+    /* Overlay layer where money-splash particles live */
+    .service-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ============================================================
+       STREET ROW — Five buildings in a grid
+       ============================================================ */
+    .street-row {
+      list-style: none;
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      margin: 0; padding: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      z-index: 2;
+    }
+
+    .building {
+      position: relative;
+      min-height: clamp(330px, 56vw, 610px);
+    }
+
+    .tower {
+      position: relative;
+      height: 100%;
+    }
+
+    .floors {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ============================================================
+       SERVICE FLOORS — Each floor = one service, stacks upward
+       ============================================================ */
+    .service-floor {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: var(--floor-h);
+
+      /* Initial state: shifted down and invisible */
+      transform: translateY(24px);
+      opacity: 0;
+
+      border-top: 2px solid var(--line);
+      border-left: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+      background: linear-gradient(180deg, var(--brand-1), var(--brand-2));
+      display: grid;
+      place-items: center;
+
+      /* Entrance transition — floor slides up and fades in */
+      transition:
+        transform 440ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 300ms ease;
+      will-change: transform, opacity;
+    }
+
+    .building:not(:first-child) .service-floor {
+      border-left-width: 1px;
+    }
+
+    /* Decorative window strip on each floor */
+    .service-floor::before {
+      content: "";
+      position: absolute;
+      left: 12%; right: 12%;
+      top: 8px;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    /* Label pill inside each floor */
+    .floor-label {
+      position: relative;
+      z-index: 1;
+      font-size: 0.61rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #fff;
+      padding: 0.08rem 0.32rem;
+      background: rgba(34, 40, 48, 0.3);
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity 220ms ease 130ms;
+    }
+
+    /* Visible state — applied via JS when the floor animates in */
+    .service-floor.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .service-floor.is-visible .floor-label {
+      opacity: 1;
+    }
+
+    /* ============================================================
+       STOREFRONTS — Base of each building
+       ============================================================ */
+    .storefront {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: var(--storefront-h);
+      border-top: 2px solid var(--line);
+      border-left: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+      background: linear-gradient(180deg, var(--brand-2), var(--brand-4));
+    }
+    .building:not(:first-child) .storefront {
+      border-left-width: 1px;
+    }
+
+    .storefront .name {
+      position: absolute;
+      left: 8%; right: 8%;
+      top: 14px;
+      min-height: 30px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(25, 27, 30, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 6px;
+    }
+
+    .storefront .door {
+      position: absolute;
+      left: 10%; bottom: 0;
+      width: 24%; height: 38%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-bottom: 0;
+      background: rgba(27, 31, 36, 0.24);
+    }
+
+    .storefront .display,
+    .storefront .icon-window {
+      position: absolute;
+      right: 10%; bottom: 18%;
+      width: 38%; height: 28%;
+      border: 2px solid rgba(255, 255, 255, 0.62);
+      background: rgba(255, 255, 255, 0.22);
+      display: grid;
+      place-items: center;
+    }
+    .storefront .icon-window { font-size: 1.2rem; }
+
+    /* Awning base */
+    .awning {
+      position: absolute;
+      left: 8%; right: 8%;
+      top: 58px;
+      height: 20px;
+      border: 2px solid var(--line);
+      background: var(--brand-2);
+    }
+
+    /* --- Perry (Bakery) --- */
+    .perry .storefront { background: linear-gradient(180deg, #ff7a23, #e45305); }
+    .perry .awning.scallop {
+      height: 20px;
+      background:
+        radial-gradient(circle at 10px 18px, transparent 9px, var(--brand-1) 9px),
+        radial-gradient(circle at 30px 18px, transparent 9px, var(--brand-1) 9px),
+        radial-gradient(circle at 50px 18px, transparent 9px, var(--brand-1) 9px),
+        radial-gradient(circle at 70px 18px, transparent 9px, var(--brand-1) 9px),
+        radial-gradient(circle at 90px 18px, transparent 9px, var(--brand-1) 9px),
+        radial-gradient(circle at 110px 18px, transparent 9px, var(--brand-1) 9px),
+        linear-gradient(180deg, var(--brand-1), var(--brand-2));
+      background-repeat: repeat-x;
+      background-size: 120px 20px;
+    }
+    .perry .round-window {
+      position: absolute;
+      right: 12%; top: 88px;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.2);
+      display: grid;
+      place-items: center;
+      font-size: 1.08rem;
+    }
+
+    /* --- Bleecker (Cafe) --- */
+    .bleecker .storefront { background: linear-gradient(180deg, #ff7020, #e25206); }
+    .bleecker .storefront::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 16%; right: 16%;
+      border-left: 1px solid rgba(255, 255, 255, 0.32);
+      border-right: 1px solid rgba(255, 255, 255, 0.32);
+    }
+    .bleecker .awning.flat { height: 16px; }
+    .bleecker .drip-edge {
+      position: absolute;
+      left: 8%; right: 8%;
+      top: 76px;
+      height: 5px;
+      background: var(--brand-4);
+    }
+    .bleecker .chalkboard {
+      position: absolute;
+      left: 10%; top: 96px;
+      width: 26%; height: 22%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: rgba(33, 37, 45, 0.56);
+    }
+
+    /* --- Village (Realty) --- */
+    .village .storefront { background: linear-gradient(180deg, #ff6f1e, #d64e03); }
+    .village .name { top: 18px; }
+    .village .arched-row {
+      position: absolute;
+      left: 10%; right: 10%;
+      top: 70px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .village .arched-row span {
+      height: 38px;
+      border: 2px solid rgba(255, 255, 255, 0.68);
+      border-bottom: 0;
+      border-radius: 18px 18px 0 0;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .village .door.gold {
+      left: 38%; width: 24%; height: 40%;
+      background: var(--gold);
+      border-color: #ecd6a4;
+    }
+    .village .display {
+      left: 12%; right: 12%;
+      width: auto;
+      bottom: 14%; height: 18%;
+    }
+
+    /* --- Orchard (Hotel) --- */
+    .orchard .storefront { background: linear-gradient(180deg, #ff7b2a, #df5206); }
+    .orchard .awning.striped {
+      background: repeating-linear-gradient(
+        90deg,
+        var(--brand-1) 0, var(--brand-1) 14%,
+        var(--cream) 14%, var(--cream) 28%
+      );
+    }
+    .orchard .door.arch { border-radius: 20px 20px 0 0; }
+    .orchard .flower-box {
+      position: absolute;
+      right: 10%; bottom: 12%;
+      width: 38%; height: 10px;
+      background: #8d5b2d;
+    }
+    .orchard .flower-box::before {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: -8px;
+      height: 9px;
+      background:
+        radial-gradient(circle at 8% 100%, #f1d67e 0 3px, transparent 3px),
+        radial-gradient(circle at 26% 100%, #f6b6b0 0 3px, transparent 3px),
+        radial-gradient(circle at 47% 100%, #ead072 0 3px, transparent 3px),
+        radial-gradient(circle at 68% 100%, #f6b6b0 0 3px, transparent 3px),
+        radial-gradient(circle at 87% 100%, #ead072 0 3px, transparent 3px);
+    }
+
+    /* --- Vestry (Dining) --- */
+    .vestry .storefront { background: linear-gradient(180deg, #ff6f1b, #d85005); }
+    .vestry .canopy {
+      position: absolute;
+      left: 8%; right: 8%;
+      top: 58px; height: 20px;
+      border: 2px solid #532023;
+      background: var(--burgundy);
+    }
+    .vestry .lights {
+      position: absolute;
+      left: 10%; right: 10%;
+      top: 38px; height: 8px;
+      background:
+        radial-gradient(circle at 4% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 18% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 32% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 46% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 60% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 74% 50%, #fff7df 0 2px, transparent 2px),
+        radial-gradient(circle at 88% 50%, #fff7df 0 2px, transparent 2px);
+    }
+
+    /* ============================================================
+       MONEY SPLASH — The particle effect (core of this file)
+       ============================================================
+
+       Each "$" particle is absolutely positioned inside .service-layer.
+       CSS custom properties control position and burst direction:
+
+         --x   : horizontal start (center of building, in stage coords)
+         --y   : vertical start (top of the completed floor)
+         --dx  : horizontal burst offset (random left/right)
+         --dy  : vertical burst offset (always upward, random magnitude)
+
+       LIFECYCLE:
+         1. Created at (--x, --y) with scale(0.72) and opacity 0
+         2. "burst" class added on next rAF:
+            - Moves to (--x + --dx, --y + --dy)
+            - Scales up to 1.08
+            - Fades in to opacity 1
+         3. "fade" class added at 420ms:
+            - Opacity transitions back to 0
+         4. Element removed from DOM at 760ms
+    */
+    .money-splash {
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      /* Initial position via custom properties, starts small and invisible */
+      transform: translate3d(var(--x), var(--y), 0) translate(-50%, 0) scale(0.72);
+      opacity: 0;
+
+      font-size: 1rem;
+      line-height: 1;
+      text-shadow: 0 3px 10px rgba(35, 40, 50, 0.28);
+
+      /* Physics-like transition: fast launch, gentle deceleration */
+      transition:
+        transform 620ms cubic-bezier(0.14, 0.84, 0.34, 1),
+        opacity 620ms ease;
+      will-change: transform, opacity;
+    }
+
+    /* BURST STATE — particle moves outward and becomes visible */
+    .money-splash.burst {
+      opacity: 1;
+      transform:
+        translate3d(calc(var(--x) + var(--dx)), calc(var(--y) + var(--dy)), 0)
+        translate(-50%, 0)
+        scale(1.08);
+    }
+
+    /* FADE STATE — particle disappears (added 420ms after burst) */
+    .money-splash.fade {
+      opacity: 0;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .street-stage {
+        height: clamp(420px, 88vw, 620px);
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+      .street-row { min-width: 980px; }
+      .btn { width: 100%; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION — Skip all animations including money splash
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Little Fight NYC Concept</p>
+      <h1>Single-Row Growth Street</h1>
+      <p class="lede">Five storefront industries, touching wall-to-wall. Each service adds a floor and pushes business growth upward. Watch for the "$" splash when each floor completes.</p>
+      <button id="replayBtn" class="btn" type="button">Replay Animation</button>
+    </header>
+
+    <section class="street-stage" id="streetStage" aria-label="Animated row of five storefront industries growing with added services.">
+      <!-- Service layer: money-splash particles are injected here -->
+      <div class="service-layer" id="serviceLayer" aria-hidden="true"></div>
+
+      <ul class="street-row" aria-hidden="true">
+        <!-- Perry St — Bakery -->
+        <li class="building perry" data-slug="perry" style="--storefront-h: 166px;">
+          <div class="tower">
+            <div class="floors"></div>
+            <div class="storefront">
+              <span class="name">Bakery</span>
+              <span class="awning scallop"></span>
+              <span class="round-window">&#x1F956;</span>
+              <span class="door"></span>
+              <span class="display"></span>
+            </div>
+          </div>
+        </li>
+
+        <!-- Bleecker St — Cafe -->
+        <li class="building bleecker" data-slug="bleecker" style="--storefront-h: 210px;">
+          <div class="tower">
+            <div class="floors"></div>
+            <div class="storefront">
+              <span class="name">Cafe</span>
+              <span class="awning flat"></span>
+              <span class="drip-edge"></span>
+              <span class="chalkboard"></span>
+              <span class="icon-window">&#9749;</span>
+              <span class="door"></span>
+            </div>
+          </div>
+        </li>
+
+        <!-- Village — Realty -->
+        <li class="building village" data-slug="village" style="--storefront-h: 232px;">
+          <div class="tower">
+            <div class="floors"></div>
+            <div class="storefront formal">
+              <span class="name">Realty</span>
+              <span class="arched-row">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="door gold"></span>
+              <span class="display"></span>
+            </div>
+          </div>
+        </li>
+
+        <!-- Orchard St — Hotel -->
+        <li class="building orchard" data-slug="orchard" style="--storefront-h: 192px;">
+          <div class="tower">
+            <div class="floors"></div>
+            <div class="storefront">
+              <span class="name">Hotel</span>
+              <span class="awning striped"></span>
+              <span class="display"></span>
+              <span class="flower-box"></span>
+              <span class="door arch"></span>
+            </div>
+          </div>
+        </li>
+
+        <!-- Vestry St — Dining -->
+        <li class="building vestry" data-slug="vestry" style="--storefront-h: 178px;">
+          <div class="tower">
+            <div class="floors"></div>
+            <div class="storefront">
+              <span class="name">Dining</span>
+              <span class="lights" aria-hidden="true"></span>
+              <span class="canopy"></span>
+              <span class="icon-window">&#x1F377;</span>
+              <span class="door"></span>
+              <span class="display"></span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    /* ==============================================================
+       CITY STREET GROWTH — Full JS with Money Splash
+       ==============================================================
+       This is the complete app.js from the original concept, with
+       extensive comments on the money-splash system.
+       ============================================================== */
+
+    const stage = document.getElementById("streetStage");
+    const serviceLayer = document.getElementById("serviceLayer");
+    const replayBtn = document.getElementById("replayBtn");
+    const buildingNodes = Array.from(document.querySelectorAll(".building"));
+
+    /* ----------------------------------------------------------
+       GROWTH PLAN
+       Each building has a slug (matching the HTML data-slug) and
+       an array of services. Each service = one floor that stacks
+       upward from the storefront base.
+       ---------------------------------------------------------- */
+    const growthPlan = [
+      { slug: "perry",    services: ["Website", "SEO", "WiFi Fix", "Branding"] },
+      { slug: "bleecker", services: ["Website", "SEO", "WiFi Fix", "Branding", "Reviews"] },
+      { slug: "village",  services: ["Website", "SEO", "WiFi Fix", "Branding", "CRM", "Analytics"] },
+      { slug: "orchard",  services: ["Website", "SEO", "WiFi Fix", "Branding"] },
+      { slug: "vestry",   services: ["Website", "SEO", "WiFi Fix", "Branding", "Reservations"] }
+    ];
+
+    /* Respect reduced motion preference — skips splash entirely */
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let timers = [];
+    let hasPlayedOnView = false;
+
+    /* ----------------------------------------------------------
+       TIMER MANAGEMENT
+       All scheduled callbacks go through queueTimer so they can
+       be bulk-cleared on replay/reset.
+       ---------------------------------------------------------- */
+    function queueTimer(callback, delay) {
+      const timerId = window.setTimeout(callback, delay);
+      timers.push(timerId);
+    }
+
+    function clearTimers() {
+      timers.forEach((timerId) => window.clearTimeout(timerId));
+      timers = [];
+    }
+
+    /* ----------------------------------------------------------
+       FLOOR POSITIONING
+       Calculates the CSS bottom value for a floor at a given level.
+       Level 0 sits directly on the storefront; each subsequent level
+       stacks (floorHeight + floorGap) higher.
+       ---------------------------------------------------------- */
+    function floorBottom(level, storefrontHeight, floorHeight, floorGap) {
+      return storefrontHeight + (level * (floorHeight + floorGap));
+    }
+
+    /* ----------------------------------------------------------
+       BUILD FLOORS
+       Creates the DOM elements for each service floor inside each
+       building. Floors start hidden (no .is-visible class).
+       ---------------------------------------------------------- */
+    function buildFloors() {
+      growthPlan.forEach((plan) => {
+        const building = buildingNodes.find((node) => node.dataset.slug === plan.slug);
+        if (!building) return;
+
+        const holder = building.querySelector(".floors");
+        if (!holder) return;
+
+        holder.textContent = "";
+
+        const style = getComputedStyle(building);
+        const storefrontHeight = parseFloat(style.getPropertyValue("--storefront-h")) || 160;
+        const floorHeight = parseFloat(style.getPropertyValue("--floor-h")) || 44;
+        const floorGap = parseFloat(style.getPropertyValue("--floor-gap")) || 6;
+
+        plan.services.forEach((service, index) => {
+          const floor = document.createElement("div");
+          floor.className = "service-floor";
+          floor.style.bottom = `${floorBottom(index, storefrontHeight, floorHeight, floorGap)}px`;
+
+          const label = document.createElement("span");
+          label.className = "floor-label";
+          label.textContent = service;
+
+          floor.appendChild(label);
+          holder.appendChild(floor);
+        });
+      });
+    }
+
+    function getBuildingFloors(building) {
+      return Array.from(building.querySelectorAll(".service-floor"));
+    }
+
+    /* ==============================================================
+       MONEY SPLASH — The core particle-burst function
+       ==============================================================
+
+       Called each time a floor finishes its entrance animation.
+       Creates 4 "$" particles that burst outward from the top of
+       the new floor, then fade and self-destruct.
+
+       PARAMETERS:
+         building  — the .building DOM element (used for positioning)
+         level     — zero-based floor index (used to calculate y origin)
+
+       POSITIONING MATH:
+         x = building center relative to stage left edge
+         y = stage bottom - floor stack height - 60% of floor height
+             (places the burst origin near the top of the floor)
+
+       PARTICLE PHYSICS:
+         dx = random between -26px and +26px (horizontal scatter)
+         dy = random between -42px and -104px (upward burst, variable force)
+         jitterX = additional random between -11px and +11px on start pos
+
+       LIFECYCLE:
+         Frame 0: element created at (x + jitterX, y), invisible, scale 0.72
+         Frame 1: "burst" class triggers CSS transition to (x+dx, y+dy), scale 1.08, opacity 1
+         +420ms:  "fade" class transitions opacity to 0
+         +760ms:  element removed from DOM
+       ============================================================== */
+    function spawnMoneySplash(building, level) {
+      /* Skip entirely for reduced-motion users */
+      if (prefersReducedMotion) return;
+
+      /* Get bounding rects to compute absolute position within the stage */
+      const stageRect = stage.getBoundingClientRect();
+      const buildingRect = building.getBoundingClientRect();
+
+      /* Read the building's CSS custom properties for floor math */
+      const style = getComputedStyle(building);
+      const storefrontHeight = parseFloat(style.getPropertyValue("--storefront-h")) || 160;
+      const floorHeight = parseFloat(style.getPropertyValue("--floor-h")) || 44;
+      const floorGap = parseFloat(style.getPropertyValue("--floor-gap")) || 6;
+
+      /* Origin point: center of building, top of the newly completed floor */
+      const x = buildingRect.left - stageRect.left + buildingRect.width * 0.5;
+      const y = buildingRect.bottom - stageRect.top
+                - floorBottom(level, storefrontHeight, floorHeight, floorGap)
+                - floorHeight * 0.6;
+
+      /* Spawn 4 "$" particles */
+      for (let i = 0; i < 4; i += 1) {
+        const money = document.createElement("span");
+        money.className = "money-splash";
+        money.textContent = "$";
+
+        /* Random burst direction */
+        const dx = (Math.random() * 52) - 26;          /* -26 to +26 px horizontal */
+        const dy = -1 * (42 + Math.random() * 62);     /* -42 to -104 px upward */
+        const jitterX = (Math.random() * 22) - 11;     /* -11 to +11 px start offset */
+
+        /* Set CSS custom properties that drive the transition */
+        money.style.setProperty("--x", `${x + jitterX}px`);
+        money.style.setProperty("--y", `${y}px`);
+        money.style.setProperty("--dx", `${dx}px`);
+        money.style.setProperty("--dy", `${dy}px`);
+
+        /* Insert into the overlay layer */
+        serviceLayer.appendChild(money);
+
+        /* Trigger the burst on next animation frame (allows initial state to render) */
+        requestAnimationFrame(() => money.classList.add("burst"));
+
+        /* After 420ms, start fading out */
+        queueTimer(() => money.classList.add("fade"), 420);
+
+        /* After 760ms, remove from DOM (cleanup) */
+        queueTimer(() => money.remove(), 760);
+      }
+    }
+
+    /* ----------------------------------------------------------
+       STATE MANAGEMENT
+       ---------------------------------------------------------- */
+    function setFinalState() {
+      buildingNodes.forEach((building) => {
+        getBuildingFloors(building).forEach((floor) => floor.classList.add("is-visible"));
+      });
+    }
+
+    function resetState() {
+      clearTimers();
+      serviceLayer.textContent = "";
+      buildingNodes.forEach((building) => {
+        getBuildingFloors(building).forEach((floor) => floor.classList.remove("is-visible"));
+      });
+    }
+
+    /* ----------------------------------------------------------
+       ANIMATION SEQUENCE
+       Iterates through each building in order, revealing floors
+       one at a time with a 420ms interval. After all floors for
+       a building complete, a 300ms pause before the next building.
+       Each floor reveal triggers spawnMoneySplash().
+       ---------------------------------------------------------- */
+    function runSequence() {
+      if (prefersReducedMotion) {
+        setFinalState();
+        return;
+      }
+
+      let cursor = 260; /* Initial delay before first floor */
+
+      growthPlan.forEach((plan) => {
+        const building = buildingNodes.find((node) => node.dataset.slug === plan.slug);
+        if (!building) return;
+
+        const floors = getBuildingFloors(building);
+
+        floors.forEach((floor, floorIndex) => {
+          queueTimer(() => {
+            floor.classList.add("is-visible");       /* Floor slides in */
+            spawnMoneySplash(building, floorIndex);  /* "$" particles burst */
+          }, cursor + floorIndex * 420);
+        });
+
+        /* Move cursor past this building's floors + inter-building pause */
+        cursor += floors.length * 420 + 300;
+      });
+    }
+
+    /* ----------------------------------------------------------
+       PLAY / REPLAY
+       ---------------------------------------------------------- */
+    function play() {
+      resetState();
+      runSequence();
+    }
+
+    /* ----------------------------------------------------------
+       INITIALIZATION
+       ---------------------------------------------------------- */
+    buildFloors();
+
+    if (prefersReducedMotion) {
+      setFinalState();
+    }
+
+    /* Auto-play when stage scrolls into view (45% threshold) */
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasPlayedOnView) {
+            hasPlayedOnView = true;
+            play();
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
+    observer.observe(stage);
+
+    /* Replay button */
+    replayBtn.addEventListener("click", () => {
+      play();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!-- Extracted from: Archive/Little Fight - Old Website/littlefight-website/ -->
+<!--
+    PAGE LOADER ANIMATION — Reference File
+    ========================================
+    Source files:
+      HTML: index.html (lines ~287-292)
+      CSS:  css/styles.css (lines ~152-195)
+      JS:   js/main.js (lines ~54-62)
+
+    This is a standalone demo of the "Getting ready to help..." loading
+    screen from the original Little Fight NYC website. Open this file in
+    a browser to see the animation in action. It will show the loader for
+    ~1.5 seconds and then fade out to reveal a placeholder page beneath.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Loader — Extracted Animation Reference</title>
+
+    <!-- The original site used Lexend (primary) and Caveat (accent) from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =============================================
+           DESIGN TOKENS (subset used by the loader)
+           ============================================= */
+        :root {
+            /* Brand Colors */
+            --color-primary: #FF6B35;        /* Vibrant orange */
+            --color-secondary: #004E89;      /* Deep blue — loader background */
+            --color-white: #FFFFFF;
+
+            /* Typography */
+            --font-primary: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            /* Font Sizes */
+            --text-lg: 1.125rem;   /* 18px — loader subtext */
+            --text-4xl: 2.25rem;   /* 36px — loader logo */
+
+            /* Spacing */
+            --spacing-md: 1.5rem;  /* 24px */
+        }
+
+
+        /* =============================================
+           PAGE LOADER — Full-screen overlay
+           =============================================
+           - Fixed overlay covers entire viewport
+           - z-index 10000 ensures it sits above everything
+           - Flex-centers the loader content vertically + horizontally
+           - Transitions opacity + visibility when ".loaded" class is added
+        */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-secondary);        /* Deep blue background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* When the page finishes loading, this class is added via JS.
+           The loader fades out over 0.5s and becomes non-interactive. */
+        .page-loader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
+        /* =============================================
+           LOADER CONTENT — Centered text block
+           ============================================= */
+
+        /* Wrapper that holds the logo text and subtitle */
+        .loader-content {
+            text-align: center;
+            color: var(--color-white);
+        }
+
+        /* "LITTLE / FIGHT / NYC" — large stacked wordmark */
+        .loader-logo {
+            font-family: var(--font-primary);
+            font-size: var(--text-4xl);          /* 36px */
+            font-weight: 900;
+            line-height: 1.1;                    /* Tight leading for stacked text */
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-md);    /* 24px gap before subtitle */
+        }
+
+        /* "Getting ready to help..." — pulsing subtitle */
+        .loader-text {
+            font-family: var(--font-primary);
+            font-size: var(--text-lg);           /* 18px */
+            opacity: 0.8;                        /* Slightly dimmed */
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+
+        /* =============================================
+           PULSE ANIMATION
+           =============================================
+           The subtitle text gently fades between 80% and 40% opacity
+           on a 1.5-second loop, creating a calm "breathing" effect
+           while the page loads behind the overlay.
+        */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50%      { opacity: 0.4; }
+        }
+
+
+        /* =============================================
+           REDUCED MOTION — Accessibility
+           =============================================
+           If the user has requested reduced motion in their OS settings,
+           all animations and transitions are effectively disabled.
+        */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+
+        /* =============================================
+           DEMO PAGE BEHIND THE LOADER
+           =============================================
+           This section only exists so you can see the loader
+           disappear and reveal content underneath. Not part of
+           the original loader code.
+        */
+        body {
+            margin: 0;
+            font-family: var(--font-primary);
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .demo-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .demo-page h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #757575;
+        }
+
+        .demo-page p {
+            margin-top: 0.5rem;
+            color: #9e9e9e;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============================================
+         PAGE LOADER HTML
+         =============================================
+         This is the exact markup from the original index.html.
+
+         Structure:
+           .page-loader        — full-screen fixed overlay (deep blue)
+             .loader-content   — centered wrapper
+               .loader-logo   — stacked "LITTLE / FIGHT / NYC" wordmark
+               .loader-text   — pulsing "Getting ready to help..." subtitle
+
+         The #pageLoader ID is targeted by the JavaScript below.
+    -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">LITTLE<br>FIGHT<br>NYC</div>
+            <p class="loader-text">Getting ready to help...</p>
+        </div>
+    </div>
+
+    <!-- Demo content behind the loader (not from original site) -->
+    <div class="demo-page">
+        <div>
+            <h1>Loader complete — page content is now visible</h1>
+            <p>This placeholder represents the rest of the site.</p>
+        </div>
+    </div>
+
+    <script>
+        /* =============================================
+           PAGE LOADER JAVASCRIPT
+           =============================================
+           From: js/main.js — initPageLoader() function (lines 54-62)
+
+           How it works:
+           1. On DOMContentLoaded, this script grabs the #pageLoader element.
+           2. It listens for the window "load" event, which fires after ALL
+              resources (images, fonts, stylesheets, scripts) have finished
+              downloading — not just the DOM.
+           3. After a 500ms delay (to ensure the animation is visible even
+              on fast connections), it adds the "loaded" class.
+           4. The CSS transition on .page-loader handles the 0.5s fade-out
+              (opacity 1 -> 0) and then hides the element (visibility: hidden)
+              so it no longer intercepts clicks.
+
+           Total visible time on a fast connection: ~500ms delay + 500ms fade = ~1 second.
+           On a slow connection the loader stays visible until all resources load,
+           then the 500ms delay + fade begins.
+        */
+        document.addEventListener('DOMContentLoaded', function () {
+            var loader = document.getElementById('pageLoader');
+
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    loader.classList.add('loaded');
+                }, 500);
+            });
+        });
+    </script>
+
+</body>
+</html>

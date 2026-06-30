@@ -1,0 +1,1236 @@
+<!-- Extracted from: Brand/Prototypes/Demos/lfnyc-micro-demo/ -->
+<!--
+  Little Fight NYC - Micro-Animation Service Demos
+  Standalone reference file containing all 11 pure-CSS service animations.
+  Original source: Brand/Prototypes/Demos/lfnyc-micro-demo/ (index.html + assets/styles.css + assets/app.js)
+  Extracted: 2026-03-10
+
+  Animations included:
+    1.  Website Design + Build    — Wireframe with drifting cursor
+    2.  Hosting + Maintenance     — Cloud with syncing ring
+    3.  SEO + AEO                 — Magnifying glass with scan line
+    4.  Branding + Identity       — Pulsing orb with twinkling sparks
+    5.  Graphic Design            — Stacking color swatches
+    6.  Copywriting + Content     — Typing lines with blinking caret
+    7.  Photography               — Camera with shutter + flash pop
+    8.  Video Editing / Reels     — Clapperboard with clap animation
+    9.  E-commerce Setup          — Shopping bag with coin drop
+   10.  Performance + Security    — Shield with secure pulse wave
+   11.  Home Automation           — House with beacon rings + door glow
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Fight NYC | Micro-Animation Service Demos (Archive Reference)</title>
+    <style>
+      /* ================================================================
+         ROOT VARIABLES
+         ================================================================ */
+      :root {
+        --bg: #fbfdff;
+        --panel: #ffffff;
+        --line: #cfe3ff;
+        --text: #2e3f54;
+        --muted: #5f748d;
+        --blue-100: #e8f4ff;
+        --blue-200: #cfe8ff;
+        --blue-300: #8fcbff;
+        --orange-100: #fff0e1;
+        --orange-200: #ffd9b2;
+        --orange-300: #ffab62;
+        --radius: 18px;
+        --shadow: 0 18px 42px rgba(68, 142, 209, 0.17);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top right, var(--orange-100), transparent 42%),
+          radial-gradient(circle at top left, var(--blue-100), transparent 40%), var(--bg);
+        color: var(--text);
+      }
+
+      /* ================================================================
+         PAGE LAYOUT
+         ================================================================ */
+      .page-shell {
+        width: min(1160px, 92vw);
+        margin: 0 auto;
+        padding: 2.5rem 0 4rem;
+      }
+
+      .page-header {
+        display: grid;
+        gap: 0.9rem;
+        max-width: 760px;
+        margin-bottom: 1.8rem;
+      }
+
+      .eyebrow {
+        margin: 0;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #6f90ab;
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.65rem, 4vw, 2.6rem);
+        line-height: 1.15;
+      }
+
+      .page-header p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* ================================================================
+         FILTER BAR
+         ================================================================ */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .filter-pill {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.5rem 0.9rem;
+        background: linear-gradient(140deg, var(--blue-100), var(--orange-100));
+        color: var(--text);
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .filter-pill:hover,
+      .filter-pill:focus-visible {
+        transform: translateY(-1px);
+        border-color: var(--blue-300);
+      }
+
+      .filter-pill.is-active {
+        border-color: #9ac8ef;
+        background: linear-gradient(140deg, var(--blue-200), var(--orange-200));
+      }
+
+      /* ================================================================
+         CARDS GRID
+         ================================================================ */
+      .cards-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1rem;
+        display: grid;
+        gap: 0.9rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 22px 48px rgba(66, 143, 211, 0.22);
+      }
+
+      .service-card[hidden] {
+        display: none;
+      }
+
+      .card-head h2 {
+        margin: 0;
+        font-size: 1.04rem;
+      }
+
+      .card-head p {
+        margin: 0.42rem 0 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      /* ================================================================
+         CODE TOGGLE / PANEL
+         ================================================================ */
+      .code-toggle {
+        width: fit-content;
+        border: 1px solid #b9d8f3;
+        border-radius: 12px;
+        padding: 0.42rem 0.7rem;
+        background: var(--blue-100);
+        color: #3b5f7f;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .code-toggle:hover,
+      .code-toggle:focus-visible {
+        background: var(--orange-100);
+      }
+
+      .code-panel {
+        border: 1px solid #d5e8fb;
+        border-radius: 12px;
+        background: #fbfdff;
+        overflow-x: auto;
+      }
+
+      .code-panel pre {
+        margin: 0;
+        padding: 0.9rem;
+        font-size: 0.76rem;
+        line-height: 1.5;
+        color: #3a5471;
+      }
+
+      /* ================================================================
+         MICRO ANIMATION CONTAINER (shared)
+         ================================================================ */
+      .micro {
+        width: 88px;
+        height: 88px;
+        border-radius: 16px;
+        background: linear-gradient(146deg, #d8ecff, #fff2e4 56%, #ffdcb9);
+        border: 1px solid #bddcff;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease;
+      }
+
+      .service-card:hover .micro {
+        transform: scale(1.06);
+      }
+
+      /* Gloss overlay */
+      .micro::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(130deg, rgba(255, 255, 255, 0.42), transparent 60%);
+        pointer-events: none;
+      }
+
+      /* All micro child spans are absolute */
+      .micro span {
+        position: absolute;
+        animation-play-state: paused;
+      }
+
+      /* Animations play on hover, focus-within, or when IntersectionObserver adds .is-live */
+      .service-card.is-live .micro span,
+      .service-card:hover .micro span,
+      .service-card:focus-within .micro span {
+        animation-play-state: running;
+      }
+
+      /* ================================================================
+         1. WEBSITE DESIGN + BUILD  (wireframe + drifting cursor)
+         ================================================================ */
+      .micro-wireframe .wf-box {
+        inset: 15px;
+        border: 2px solid #8ec1ef;
+        border-radius: 10px;
+      }
+
+      .micro-wireframe .wf-line {
+        left: 24px;
+        height: 4px;
+        border-radius: 6px;
+        background: #ff9546;
+        animation: line-glow 1.8s ease-in-out infinite;
+      }
+
+      .micro-wireframe .line-a {
+        top: 28px;
+        width: 34px;
+      }
+
+      .micro-wireframe .line-b {
+        top: 38px;
+        width: 22px;
+        animation-delay: 0.15s;
+      }
+
+      .micro-wireframe .line-c {
+        top: 48px;
+        width: 28px;
+        animation-delay: 0.3s;
+      }
+
+      .micro-wireframe .wf-cursor {
+        width: 10px;
+        height: 10px;
+        background: #2996ff;
+        border-radius: 50%;
+        top: 21px;
+        left: 19px;
+        animation: cursor-drift 1.8s ease-in-out infinite;
+      }
+
+      /* ================================================================
+         2. HOSTING + MAINTENANCE  (cloud with syncing ring)
+         ================================================================ */
+      .micro-cloud .cloud-shape {
+        width: 48px;
+        height: 24px;
+        background: #90cbff;
+        border-radius: 16px;
+        left: 17px;
+        top: 30px;
+        animation: bob 2s ease-in-out infinite;
+      }
+
+      .micro-cloud .cloud-shape::before,
+      .micro-cloud .cloud-shape::after {
+        content: "";
+        position: absolute;
+        background: inherit;
+        border-radius: 50%;
+      }
+
+      .micro-cloud .cloud-shape::before {
+        width: 18px;
+        height: 18px;
+        left: 6px;
+        top: -10px;
+      }
+
+      .micro-cloud .cloud-shape::after {
+        width: 22px;
+        height: 22px;
+        right: 8px;
+        top: -12px;
+      }
+
+      .micro-cloud .sync-ring {
+        inset: 20px;
+        border: 2px dashed #ff8f42;
+        border-radius: 50%;
+        animation: rotate-soft 2.2s linear infinite;
+      }
+
+      .micro-cloud .sync-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ff8f42;
+        top: 14px;
+        left: 38px;
+      }
+
+      /* ================================================================
+         3. SEO + AEO  (magnifying glass with scan line)
+         ================================================================ */
+      .micro-search .lens {
+        width: 34px;
+        height: 34px;
+        border: 3px solid #389df8;
+        border-radius: 50%;
+        top: 18px;
+        left: 20px;
+      }
+
+      .micro-search .handle {
+        width: 14px;
+        height: 4px;
+        background: #389df8;
+        border-radius: 6px;
+        top: 49px;
+        left: 49px;
+        transform: rotate(40deg);
+      }
+
+      .micro-search .scan {
+        width: 24px;
+        height: 2px;
+        background: #ff8e3f;
+        left: 25px;
+        top: 26px;
+        animation: scan-pass 1.6s ease-in-out infinite;
+      }
+
+      /* ================================================================
+         4. BRANDING + IDENTITY  (pulsing orb with twinkling sparks)
+         ================================================================ */
+      .micro-brand .brand-orb {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #fff, #ff964d 58%, #56b1ff 100%);
+        top: 27px;
+        left: 27px;
+        animation: pulse-soft 1.7s ease-in-out infinite;
+      }
+
+      .micro-brand .brand-spark {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        border: 2px solid #2f9fff;
+        transform: rotate(45deg);
+        animation: twinkle 1.5s ease-in-out infinite;
+      }
+
+      .micro-brand .spark-a {
+        top: 16px;
+        left: 16px;
+      }
+
+      .micro-brand .spark-b {
+        bottom: 15px;
+        right: 14px;
+        animation-delay: 0.35s;
+      }
+
+      /* ================================================================
+         5. GRAPHIC DESIGN  (stacking color swatches)
+         ================================================================ */
+      .micro-graphic .swatch {
+        width: 30px;
+        height: 20px;
+        border-radius: 8px;
+        border: 1px solid #cce6fb;
+      }
+
+      .micro-graphic .swatch-a {
+        background: #ffa35f;
+        left: 18px;
+        top: 20px;
+        animation: slide-stack 1.9s ease-in-out infinite;
+      }
+
+      .micro-graphic .swatch-b {
+        background: #6fc1ff;
+        left: 28px;
+        top: 30px;
+        animation: slide-stack 1.9s ease-in-out infinite;
+        animation-delay: 0.2s;
+      }
+
+      .micro-graphic .swatch-c {
+        background: #ffe1c5;
+        left: 38px;
+        top: 40px;
+        animation: slide-stack 1.9s ease-in-out infinite;
+        animation-delay: 0.4s;
+      }
+
+      /* ================================================================
+         6. COPYWRITING + CONTENT  (typing lines with blinking caret)
+         ================================================================ */
+      .micro-copy .type-line {
+        left: 16px;
+        height: 4px;
+        border-radius: 6px;
+        background: #3ea6ff;
+        transform-origin: left center;
+      }
+
+      .micro-copy .t1 {
+        top: 30px;
+        width: 42px;
+        animation: typing 2s steps(8, end) infinite;
+      }
+
+      .micro-copy .t2 {
+        top: 41px;
+        width: 30px;
+        animation: typing 2s steps(6, end) infinite;
+        animation-delay: 0.2s;
+      }
+
+      .micro-copy .caret {
+        width: 3px;
+        height: 11px;
+        background: #ff903d;
+        left: 58px;
+        top: 27px;
+        animation: blink 0.9s steps(1, end) infinite;
+      }
+
+      /* ================================================================
+         7. PHOTOGRAPHY  (camera with shutter + flash pop)
+         ================================================================ */
+      .micro-photo .cam-body {
+        width: 50px;
+        height: 34px;
+        background: #85c7ff;
+        border-radius: 10px;
+        top: 26px;
+        left: 16px;
+      }
+
+      .micro-photo .cam-body::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 8px;
+        border-radius: 4px;
+        background: #9bcdf6;
+        top: -6px;
+        left: 6px;
+      }
+
+      .micro-photo .cam-lens {
+        width: 18px;
+        height: 18px;
+        border: 3px solid #319bfa;
+        border-radius: 50%;
+        top: 34px;
+        left: 32px;
+        animation: shutter 1.8s ease-in-out infinite;
+      }
+
+      .micro-photo .cam-flash {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ffb272;
+        top: 18px;
+        right: 16px;
+        animation: flash-pop 2s ease-out infinite;
+      }
+
+      /* ================================================================
+         8. VIDEO EDITING / REELS  (clapperboard with clap animation)
+         ================================================================ */
+      .micro-video .clap-base {
+        width: 48px;
+        height: 30px;
+        background: #80c6ff;
+        border-radius: 8px;
+        left: 17px;
+        top: 34px;
+      }
+
+      .micro-video .clap-top {
+        width: 48px;
+        height: 10px;
+        background: repeating-linear-gradient(
+          45deg,
+          #ff9a4f,
+          #ff9a4f 8px,
+          #8dceff 8px,
+          #8dceff 16px
+        );
+        border-radius: 8px;
+        left: 17px;
+        top: 24px;
+        transform-origin: left center;
+        animation: clap 1.4s ease-in-out infinite;
+      }
+
+      .micro-video .play-dot {
+        width: 0;
+        height: 0;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-left: 11px solid #ff8b37;
+        top: 42px;
+        left: 35px;
+      }
+
+      /* ================================================================
+         9. E-COMMERCE SETUP  (shopping bag with coin drop)
+         ================================================================ */
+      .micro-shop .bag {
+        width: 42px;
+        height: 34px;
+        background: #8dceff;
+        border-radius: 8px;
+        top: 30px;
+        left: 20px;
+      }
+
+      .micro-shop .bag-handle {
+        width: 18px;
+        height: 12px;
+        border: 3px solid #8fc4f3;
+        border-bottom: 0;
+        border-radius: 12px 12px 0 0;
+        left: 32px;
+        top: 19px;
+      }
+
+      .micro-shop .coin {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ff8d3c;
+        left: 35px;
+        top: 13px;
+        animation: coin-drop 1.7s ease-in-out infinite;
+      }
+
+      /* ================================================================
+         10. PERFORMANCE + SECURITY  (shield with secure pulse wave)
+         ================================================================ */
+      .micro-shield .shield {
+        width: 34px;
+        height: 42px;
+        left: 24px;
+        top: 18px;
+        background: #86c7ff;
+        clip-path: polygon(50% 0%, 100% 14%, 100% 50%, 50% 100%, 0 50%, 0 14%);
+      }
+
+      .micro-shield .shield-check {
+        width: 14px;
+        height: 8px;
+        border-left: 3px solid #7ebaf0;
+        border-bottom: 3px solid #7ebaf0;
+        transform: rotate(-45deg);
+        left: 35px;
+        top: 38px;
+      }
+
+      .micro-shield .shield-wave {
+        inset: 18px;
+        border: 2px solid #ff9e5c;
+        border-radius: 50%;
+        animation: secure-pulse 2s ease-out infinite;
+      }
+
+      /* ================================================================
+         11. HOME AUTOMATION  (house with beacon rings + door glow)
+         ================================================================ */
+      .micro-home .home-shell {
+        width: 42px;
+        height: 28px;
+        left: 23px;
+        top: 34px;
+        border: 3px solid #339dff;
+        border-top: 0;
+        border-radius: 0 0 8px 8px;
+      }
+
+      /* Roof (rotated square border) */
+      .micro-home .home-shell::before {
+        content: "";
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        left: 1px;
+        top: -18px;
+        border-left: 3px solid #339dff;
+        border-top: 3px solid #339dff;
+        transform: rotate(45deg);
+      }
+
+      .micro-home .home-door {
+        width: 10px;
+        height: 13px;
+        left: 39px;
+        top: 49px;
+        border-radius: 4px 4px 0 0;
+        background: #ff974f;
+        animation: door-glow 2.8s ease-in-out infinite;
+      }
+
+      .micro-home .home-ring {
+        border: 2px solid #ff9448;
+        border-radius: 50%;
+        opacity: 0;
+        animation: beacon-home 2.8s ease-out infinite;
+      }
+
+      .micro-home .ring-a {
+        inset: 17px;
+      }
+
+      .micro-home .ring-b {
+        inset: 11px;
+        animation-delay: 0.65s;
+      }
+
+      .micro-home .home-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        left: 40px;
+        top: 27px;
+        background: #ff8f43;
+        box-shadow: 0 0 0 0 rgba(255, 143, 67, 0.56);
+        animation: dot-ping 2.8s ease-out infinite;
+      }
+
+      /* ================================================================
+         KEYFRAME ANIMATIONS
+         ================================================================ */
+
+      /* 1. Wireframe: lines glow in/out */
+      @keyframes line-glow {
+        0%, 100% { opacity: 0.55; }
+        50% { opacity: 1; }
+      }
+
+      /* 1. Wireframe: cursor drifts diagonally */
+      @keyframes cursor-drift {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(30px, 22px); }
+      }
+
+      /* 2. Cloud: gentle bobbing */
+      @keyframes bob {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+
+      /* 2. Cloud: sync ring rotation */
+      @keyframes rotate-soft {
+        to { transform: rotate(360deg); }
+      }
+
+      /* 3. SEO: scan line sweeps vertically */
+      @keyframes scan-pass {
+        0%, 100% { transform: translateY(0); opacity: 0.7; }
+        50% { transform: translateY(14px); opacity: 1; }
+      }
+
+      /* 4. Branding: orb pulses gently */
+      @keyframes pulse-soft {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.09); }
+      }
+
+      /* 4. Branding: sparks twinkle */
+      @keyframes twinkle {
+        0%, 100% { opacity: 0.5; transform: rotate(45deg) scale(0.9); }
+        50% { opacity: 1; transform: rotate(45deg) scale(1.15); }
+      }
+
+      /* 5. Graphic Design: swatches slide and stack */
+      @keyframes slide-stack {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(-5px, -5px); }
+      }
+
+      /* 6. Copywriting: typing effect via scaleX */
+      @keyframes typing {
+        0%, 15% { transform: scaleX(0.15); }
+        45%, 100% { transform: scaleX(1); }
+      }
+
+      /* 6. Copywriting: caret blink */
+      @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+
+      /* 7. Photography: lens shutter pulse */
+      @keyframes shutter {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(0.78); }
+      }
+
+      /* 7. Photography: flash pop */
+      @keyframes flash-pop {
+        0%, 74%, 100% { opacity: 0.35; transform: scale(0.8); }
+        78% { opacity: 1; transform: scale(1.35); }
+      }
+
+      /* 8. Video: clapperboard clap */
+      @keyframes clap {
+        0%, 100% { transform: rotate(0deg); }
+        40% { transform: rotate(-16deg); }
+        60% { transform: rotate(-2deg); }
+      }
+
+      /* 9. E-commerce: coin drops into bag */
+      @keyframes coin-drop {
+        0%, 100% { transform: translateY(0); }
+        45% { transform: translateY(20px); }
+        65% { transform: translateY(14px); }
+      }
+
+      /* 10. Security: shield pulse wave expands and fades */
+      @keyframes secure-pulse {
+        0% { opacity: 0.9; transform: scale(0.7); }
+        100% { opacity: 0; transform: scale(1.3); }
+      }
+
+      /* 11. Home Automation: beacon rings expand outward */
+      @keyframes beacon-home {
+        0% { opacity: 0; transform: scale(0.72); }
+        24%, 55% { opacity: 0.9; }
+        100% { opacity: 0; transform: scale(1.18); }
+      }
+
+      /* 11. Home Automation: dot ping (box-shadow pulse) */
+      @keyframes dot-ping {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(255, 143, 67, 0.52); }
+        55% { box-shadow: 0 0 0 8px rgba(255, 143, 67, 0); }
+      }
+
+      /* 11. Home Automation: door glow */
+      @keyframes door-glow {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+
+      /* ================================================================
+         RESPONSIVE GRID
+         ================================================================ */
+      @media (min-width: 680px) {
+        .cards-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .cards-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .service-card {
+          padding: 1.1rem;
+        }
+      }
+
+      /* ================================================================
+         REDUCED MOTION
+         ================================================================ */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .service-card:hover .micro {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">Little Fight NYC Demo Lab</p>
+        <h1>Service Micro-Animations in HTML + CSS</h1>
+        <p>
+          A single-page concept board showing subtle, icon-sized interaction ideas for core services.
+          Use filters to focus by service type, then open each card to inspect the snippet.
+        </p>
+      </header>
+
+      <!-- ============================================================
+           FILTER BAR
+           ============================================================ -->
+      <section class="filter-bar" aria-label="Filter services">
+        <button class="filter-pill is-active" data-filter="all" type="button">All</button>
+        <button class="filter-pill" data-filter="web" type="button">Web</button>
+        <button class="filter-pill" data-filter="branding" type="button">Branding</button>
+        <button class="filter-pill" data-filter="seo" type="button">SEO</button>
+        <button class="filter-pill" data-filter="smart" type="button">Smart</button>
+        <button class="filter-pill" data-filter="photo" type="button">Photo</button>
+        <button class="filter-pill" data-filter="video" type="button">Video</button>
+        <button class="filter-pill" data-filter="support" type="button">Support</button>
+      </section>
+
+      <!-- ============================================================
+           SERVICE CARDS (11 animations)
+           ============================================================ -->
+      <section class="cards-grid" id="cards-grid">
+
+        <!-- --------------------------------------------------------
+             1. WEBSITE DESIGN + BUILD
+             Animation: Wireframe box with orange content lines that
+             glow in/out, and a blue cursor dot that drifts diagonally
+             across the frame.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="web branding">
+          <div class="card-head">
+            <h2>Website Design + Build</h2>
+            <p>Responsive sites with clean UX and conversion-focused structure.</p>
+          </div>
+          <div class="micro micro-wireframe" aria-hidden="true">
+            <span class="wf-box"></span>
+            <span class="wf-line line-a"></span>
+            <span class="wf-line line-b"></span>
+            <span class="wf-line line-c"></span>
+            <span class="wf-cursor"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-wireframe"&gt;
+  &lt;span class="wf-box"&gt;&lt;/span&gt;
+  &lt;span class="wf-cursor"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-wireframe .wf-cursor {
+  animation: cursor-drift 1.8s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             2. HOSTING + MAINTENANCE
+             Animation: Cloud shape bobs gently up/down, dashed orange
+             sync ring rotates continuously, small orange dot accent.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="web support">
+          <div class="card-head">
+            <h2>Hosting + Maintenance</h2>
+            <p>Reliable uptime, updates, and proactive site care.</p>
+          </div>
+          <div class="micro micro-cloud" aria-hidden="true">
+            <span class="cloud-shape"></span>
+            <span class="sync-ring"></span>
+            <span class="sync-dot"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-cloud"&gt;
+  &lt;span class="cloud-shape"&gt;&lt;/span&gt;
+  &lt;span class="sync-ring"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-cloud .sync-ring {
+  animation: rotate-soft 2s linear infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             3. SEO + AEO
+             Animation: Magnifying glass with lens and handle. Orange
+             scan line sweeps vertically through the lens area.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="seo web">
+          <div class="card-head">
+            <h2>SEO + AEO</h2>
+            <p>Search and answer-engine optimization with measurable growth.</p>
+          </div>
+          <div class="micro micro-search" aria-hidden="true">
+            <span class="lens"></span>
+            <span class="handle"></span>
+            <span class="scan"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-search"&gt;
+  &lt;span class="lens"&gt;&lt;/span&gt;
+  &lt;span class="scan"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-search .scan {
+  animation: scan-pass 1.6s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             4. BRANDING + IDENTITY
+             Animation: Central gradient orb pulses gently. Two diamond
+             sparks twinkle at opposite corners with staggered delay.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="branding">
+          <div class="card-head">
+            <h2>Branding + Identity</h2>
+            <p>Distinct visual systems that make your brand instantly recognizable.</p>
+          </div>
+          <div class="micro micro-brand" aria-hidden="true">
+            <span class="brand-orb"></span>
+            <span class="brand-spark spark-a"></span>
+            <span class="brand-spark spark-b"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-brand"&gt;
+  &lt;span class="brand-orb"&gt;&lt;/span&gt;
+  &lt;span class="brand-spark"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-brand .brand-spark {
+  animation: twinkle 1.5s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             5. GRAPHIC DESIGN
+             Animation: Three color swatches (orange, blue, cream)
+             stacked with offset. They slide diagonally up-left and
+             back with staggered delays, creating a fanning effect.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="branding">
+          <div class="card-head">
+            <h2>Graphic Design</h2>
+            <p>Campaign-ready graphics, print assets, and social visuals.</p>
+          </div>
+          <div class="micro micro-graphic" aria-hidden="true">
+            <span class="swatch swatch-a"></span>
+            <span class="swatch swatch-b"></span>
+            <span class="swatch swatch-c"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-graphic"&gt;
+  &lt;span class="swatch swatch-a"&gt;&lt;/span&gt;
+  &lt;span class="swatch swatch-b"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-graphic .swatch-a {
+  animation: slide-stack 1.9s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             6. COPYWRITING + CONTENT
+             Animation: Two blue lines grow from left via scaleX (typed
+             text effect with stepped timing). Orange caret blinks at
+             the end of the text area.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="branding seo">
+          <div class="card-head">
+            <h2>Copywriting + Content</h2>
+            <p>Clear messaging tuned for audience, rankings, and conversion.</p>
+          </div>
+          <div class="micro micro-copy" aria-hidden="true">
+            <span class="type-line t1"></span>
+            <span class="type-line t2"></span>
+            <span class="caret"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-copy"&gt;
+  &lt;span class="type-line t1"&gt;&lt;/span&gt;
+  &lt;span class="caret"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-copy .t1 {
+  animation: typing 2s steps(10, end) infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             7. PHOTOGRAPHY
+             Animation: Camera body with viewfinder bump. Lens ring
+             pulses (shutter closing/opening). Flash dot pops bright
+             then fades back.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="photo">
+          <div class="card-head">
+            <h2>Photography</h2>
+            <p>Brand and product photography with polished visual storytelling.</p>
+          </div>
+          <div class="micro micro-photo" aria-hidden="true">
+            <span class="cam-body"></span>
+            <span class="cam-lens"></span>
+            <span class="cam-flash"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-photo"&gt;
+  &lt;span class="cam-body"&gt;&lt;/span&gt;
+  &lt;span class="cam-flash"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-photo .cam-flash {
+  animation: flash-pop 2s ease-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             8. VIDEO EDITING / REELS
+             Animation: Clapperboard with striped top piece that
+             rotates open and claps shut. Play triangle inside the
+             base panel.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="video">
+          <div class="card-head">
+            <h2>Video Editing / Reels</h2>
+            <p>Fast, platform-ready edits designed for retention and engagement.</p>
+          </div>
+          <div class="micro micro-video" aria-hidden="true">
+            <span class="clap-top"></span>
+            <span class="clap-base"></span>
+            <span class="play-dot"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-video"&gt;
+  &lt;span class="clap-top"&gt;&lt;/span&gt;
+  &lt;span class="clap-base"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-video .clap-top {
+  animation: clap 1.4s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             9. E-COMMERCE SETUP
+             Animation: Shopping bag with curved handle. Orange coin
+             drops down into the bag and bounces slightly before
+             resetting.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="web support">
+          <div class="card-head">
+            <h2>E-commerce Setup</h2>
+            <p>Launch storefronts with smooth checkout and product management.</p>
+          </div>
+          <div class="micro micro-shop" aria-hidden="true">
+            <span class="bag"></span>
+            <span class="bag-handle"></span>
+            <span class="coin"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-shop"&gt;
+  &lt;span class="bag"&gt;&lt;/span&gt;
+  &lt;span class="coin"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-shop .coin {
+  animation: coin-drop 1.7s ease-in-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             10. PERFORMANCE + SECURITY
+             Animation: Shield shape (clip-path polygon) with a
+             checkmark inside. Orange pulse wave ring expands outward
+             from the shield center and fades.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="support web">
+          <div class="card-head">
+            <h2>Performance + Security</h2>
+            <p>Speed tuning, hardening, and monitoring for resilient delivery.</p>
+          </div>
+          <div class="micro micro-shield" aria-hidden="true">
+            <span class="shield"></span>
+            <span class="shield-check"></span>
+            <span class="shield-wave"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-shield"&gt;
+  &lt;span class="shield"&gt;&lt;/span&gt;
+  &lt;span class="shield-wave"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-shield .shield-wave {
+  animation: secure-pulse 2s ease-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+        <!-- --------------------------------------------------------
+             11. HOME AUTOMATION
+             Animation: House outline with rotated-square roof. Orange
+             door glows. Two concentric beacon rings expand outward
+             with staggered delay. Center dot pings with box-shadow.
+             -------------------------------------------------------- -->
+        <article class="service-card" data-cats="smart support">
+          <div class="card-head">
+            <h2>Home Automation</h2>
+            <p>Connected lighting, controls, and routines tuned for daily flow.</p>
+          </div>
+          <div class="micro micro-home" aria-hidden="true">
+            <span class="home-shell"></span>
+            <span class="home-door"></span>
+            <span class="home-ring ring-a"></span>
+            <span class="home-ring ring-b"></span>
+            <span class="home-dot"></span>
+          </div>
+          <button class="code-toggle" type="button" aria-expanded="false">View Code</button>
+          <div class="code-panel" hidden>
+<pre><code>&lt;div class="micro micro-home"&gt;
+  &lt;span class="home-shell"&gt;&lt;/span&gt;
+  &lt;span class="home-ring ring-a"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+.micro-home .home-ring {
+  animation: beacon-home 2.8s ease-out infinite;
+}</code></pre>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <!-- ============================================================
+         INLINE JAVASCRIPT
+         Filter cards by category and toggle code snippet panels.
+         IntersectionObserver triggers animations when cards scroll
+         into view (adds .is-live class).
+         ============================================================ -->
+    <script>
+      // Filter cards by category and toggle snippet panels.
+      const filterButtons = document.querySelectorAll('.filter-pill');
+      const cards = document.querySelectorAll('.service-card');
+      const codeButtons = document.querySelectorAll('.code-toggle');
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const filter = button.dataset.filter;
+
+          filterButtons.forEach((b) => b.classList.remove('is-active'));
+          button.classList.add('is-active');
+
+          cards.forEach((card) => {
+            const tags = card.dataset.cats?.split(' ') ?? [];
+            const show = filter === 'all' || tags.includes(filter);
+            card.hidden = !show;
+          });
+        });
+      });
+
+      codeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const panel = button.nextElementSibling;
+          const willOpen = panel.hasAttribute('hidden');
+
+          panel.toggleAttribute('hidden', !willOpen);
+          button.setAttribute('aria-expanded', String(willOpen));
+          button.textContent = willOpen ? 'Hide Code' : 'View Code';
+        });
+      });
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              entry.target.classList.toggle('is-live', entry.isIntersecting);
+            });
+          },
+          {
+            threshold: 0.35,
+            rootMargin: '0px 0px -12% 0px',
+          },
+        );
+
+        cards.forEach((card) => observer.observe(card));
+      } else {
+        cards.forEach((card) => card.classList.add('is-live'));
+      }
+    </script>
+  </body>
+</html>
